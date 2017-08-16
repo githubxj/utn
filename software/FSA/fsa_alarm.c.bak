@@ -1,0 +1,245 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sqlite3.h>
+
+#include "../common/const.h"
+#include "../common/msg.h"
+#include "../common/alarm_type.h"
+#include "../common/logger.h"
+#include "refresh_check.h"
+#include "fsa_alarm.h"
+
+#define 	MAX_ALARM_LEN				80
+
+extern int alarmlog;
+
+int UpdateOnuListDB(sqlite3 *db, unsigned char card_no, ONU_LIST_ENTRY* onulist, unsigned char onunum)
+{
+	char *zErrMsg = 0;
+	int rc,fldIdx, i, nrow, ncol;
+	char sql_str[256];
+	char **result;
+	unsigned char onus_in_db[MAX_ONU_NUM+1];
+	unsigned char node_id;
+	char name_tmp[MAX_DISPLAYNAME_LEN +1];
+
+	memset(onus_in_db, 0, sizeof(onus_in_db));
+
+	sprintf(sql_str, "select NodeId from ONUList where CardNo=%d", card_no);
+	rc = sqlite3_get_table(db,
+					sql_str,                /* SQL to be executed */
+					&result,			/* Result written to a char *[]  that this points to */
+					&nrow,			/* Number of result rows written here */
+					&ncol,			/* Number of result columns written here */
+					&zErrMsg		/* Error msg written here */);
+	if (rc !=SQLITE_OK)
+	{
+		logger (LOG_ERR,  "DB select nodeid Error:%s\n", zErrMsg);
+		return ERROR ;					
+	}
+
+	for(i=1; i<=nrow; i++)
+	{
+		fldIdx = i*ncol;
+		node_id = atoi(result[fldIdx]);
+		if(node_id > MAX_ONU_NUM)
+			continue;
+
+		logger  (LOG_DEBUG,  "Node current:%d\n", node_id);
+
+		onus_in_db[node_id] = 1;
+	}
+	
+	sqlite3_free_table (result);
+
+	for(i=0; i<onunum; i++)
+	{
+		if(onulist[i].node_id > MAX_ONU_NUM) {
+			logger (LOG_WARNING,  "Warning: get wrong node_id:%d from fsa card:%d C_ONU_GETLIST response!\n", onulist[i].node_id, card_no);
+			continue;
+		}
+
+		//make sure the onu name is terminate with '\0' 
+		memcpy(name_tmp, onulist[i].onu_name, MAX_DISPLAYNAME_LEN);
+		name_tmp[MAX_DISPLAYNAME_LEN] = '\0';
+
+		//update or insert the onu record in database 
+		if(onus_in_db[onulist[i].node_id])
+			sprintf(sql_str, "update ONUList  set NodeSN=%u ,NodeState=%u, NetworkState=%u, ONUName='%s' where CardNo=%u and NodeId=%u;",
+					 onulist[i].node_sn, onulist[i].node_state, onulist[i].network_state, name_tmp, card_no, onulist[i].node_id);
+		else
+			sprintf(sql_str, "insert into ONUList(NodeSN, NodeState, NetworkState, ONUName, CardNo, NodeId) values(%d, %d, %d, '%s', %d, %d);",
+					 onulist[i].node_sn, onulist[i].node_state, onulist[i].network_state, name_tmp, card_no, onulist[i].node_id);
+
+		rc = sqlite3_exec(db, sql_str, 0, 0, &zErrMsg);
+		if(rc != SQLITE_OK) {
+			logger (LOG_ERR,  "DB Error: Update NUList table error! sql=%s, err=%s\n", sql_str, sqlite3_errmsg(db) );
+		}
+		
+		onus_in_db[onulist[i].node_id] = 2;
+
+	}
+
+	/* delete the not matched onu node in database */
+	for(i = 1; i<=MAX_ONU_NUM; i++)
+	{
+		if(onus_in_db[i] == 1)
+		{
+			sprintf(sql_str, "delete from ONUList where CardNo=%u and NodeId=%u;",  card_no, i);
+			rc = sqlite3_exec(db, sql_str, 0, 0, &zErrMsg);
+			if(rc != SQLITE_OK) {
+				logger (LOG_ERR,  "DB Error: delete ONUList table error! sql=%s, err=%s\n", sql_str, sqlite3_errmsg(db) );
+			}
+			logger (LOG_DEBUG,  "sql = %s", sql_str);
+		}
+	}	
+	
+	return 0;
+}
+
+
+int UpdateOnuListDB_sn(sqlite3 *db, unsigned char card_no, unsigned char node_id, unsigned char sn)
+{
+	char *zErrMsg = 0;
+	int rc;
+	char sql_str[256];
+
+	sprintf(sql_str, "update ONUList  set NodeSN=%u where CardNo=%u and NodeId=%u;", sn, card_no, node_id);
+
+	rc = sqlite3_exec(db, sql_str, 0, 0, &zErrMsg);
+	if(rc != SQLITE_OK) {
+		logger (LOG_ERR,  "DB Error: Update ONUList table error! sql=%s, err=%s\n", sql_str, sqlite3_errmsg(db) );
+		return -1;
+	}
+		
+	return 0;
+}
+
+
+void genAlarm(sqlite3 *db, unsigned char alarmType, unsigned char serverity,unsigned char card_no, unsigned char port_no, unsigned char node_id, unsigned char  reason )
+{
+	char sql_str[256];
+	char *zErrMsg = 0;
+	int rc;
+
+	sprintf(sql_str, "insert into Alarm(AlarmType, Severity, CardNo, Port, NodeId, Reason) values(%u, %d, %d, %d, %d, %d);", alarmType, serverity, card_no, port_no, node_id, reason);
+	rc = sqlite3_exec(db, sql_str, 0, 0, &zErrMsg);
+	if(rc != SQLITE_OK) {
+		logger (LOG_ERR , "DB insert alarm error: %s\nsql:%s\n", sqlite3_errmsg(db),sql_str);
+	}
+}
+
+unsigned char getServerity(unsigned char alarmType)
+{
+	unsigned char serverity;
+
+	switch(alarmType) {
+		case ATYPE_FANOFF:
+		case ATYPE_ONUSFPREMOVED:
+		case ATYPE_CARDRESTART:
+		case ATYPE_SFPREMOVED:
+		case ATYPE_ONETRINGSTANDBYFAILURE:
+		case ATYPE_ONETLINKBROKEN:
+		case ATYPE_ONETRINGFAILURE:
+		case ATYPE_ONETRINGBROKEN:
+		case ATYPE_RMTPOWERDOWN:	
+		case ATYPE_PORTDOWAN:
+		case ATYPE_ONUPORTDOWN:
+		case ATYPE_FXDOWN:
+			serverity = ALARM_SERVERITY_WARNING;
+			break;
+		case ATYPE_PSAOFF:
+		case ATYPE_PSBOFF:
+		case ATYPE_CARDOFFLINE:
+		case ATYPE_CARDFAILURE:
+		case ATYPE_ONUOFFLINE:
+			serverity = ALARM_SERVERITY_ERROR;
+			break;
+		default :
+			serverity = ALARM_SERVERITY_INFO;
+			break;
+	}
+
+	return(serverity);
+}
+
+void check_fsaAlarms()
+{
+	ONET_ALARM_INFO alarmlist[MAX_ALARM_LEN];
+	sqlite3 	*db; 
+	int 		i, alarm_count;
+	int 		needUpdateOnuList, needRefreshTree;
+	
+
+	db = NULL;
+	
+	alarm_count = getAlarm(alarmlist, MAX_ALARM_LEN);
+	if(alarm_count == 0)
+		return;	/*no alarms */
+	
+	/* start to process the alarm */
+	if(db == NULL)
+	{
+		if( sqlite3_open(DYNAMIC_DB, &db) ){
+			logger (LOG_ERR,   "Can't open database: %s\n", sqlite3_errmsg(db));
+			return;
+		}
+	}
+			
+	needUpdateOnuList = 0;
+	needRefreshTree = 0;
+	for(i=0; i< alarm_count; i++)
+	{
+		switch(alarmlist[i].alarm_type) {
+			case ATYPE_ONUONLINE:
+			case ATYPE_ONUOFFLINE:
+				needRefreshTree = 1;
+			case ATYPE_ONETRINGFAILURE:
+			case ATYPE_ONETRINGRESTORE:
+			case ATYPE_ONETRINGBROKEN:
+			case ATYPE_ONETLINKBROKEN:
+			case ATYPE_ONETLINKRESTORE:
+			case ATYPE_ONUNAMECHG:
+				needUpdateOnuList = 1;
+				break;
+			default :
+				break;
+	}
+
+	if(alarmlist[i].alarm_type == ATYPE_ONUSNCHG)
+	{
+		UpdateOnuListDB_sn(db, i, alarmlist[i].node_id, alarmlist[i].reason);
+		setRefreshState_Topo(i);
+	}
+	else if(alarmlist[i].alarm_type != ATYPE_ONUNAMECHG)
+		genAlarm(db, 
+			alarmlist[i].alarm_type, 
+			getServerity(alarmlist[i].alarm_type),
+			0, 
+			alarmlist[i].port_no,
+			alarmlist[i].node_id,
+			alarmlist[i].reason);
+	}
+
+	if(needUpdateOnuList)
+	{
+		ONU_LIST_ENTRY list[MAX_ONU_NUM];
+		int onu_num;
+		
+		onu_num =  getONUList(list);
+		UpdateOnuListDB(db, 0, list, onu_num);
+		
+		setRefreshState_Topo(0);
+		if(needRefreshTree)
+			setRefreshState(CHANGE_FLAG_TREEV);
+	}
+			
+	if( db != NULL )
+		sqlite3_close(db);	
+
+}
+
+
+
+
