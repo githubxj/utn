@@ -697,20 +697,35 @@ typedef struct MTT411_ALARM_INFO
 */
 typedef struct MTT441_ALARM_INFO
 {
-    unsigned char front_power:2;
-    unsigned char front_optical:2;
-    unsigned char front_net:2;          
-    unsigned char back_netport:2;
+    unsigned char mtu1_front_power:2;        // 电源
+    unsigned char mtu1_front_fiber:2;        // 光口
+    unsigned char mtu1_front_net:2;          // 前端独立网口
+    unsigned char mtu1_back_net:2;           // 后端独立网口
     
-    unsigned char front_net1:2;
-    unsigned char front_net2:2;
-    unsigned char front_net3:2;
-    unsigned char front_net4:2;
+    unsigned char mtu1_front_net1:2;
+    unsigned char mtu1_front_net2:2;
+    unsigned char mtu1_front_net3:2;
+    unsigned char mtu1_front_net4:2;
     
-    unsigned char front_net5:2;
-    unsigned char front_net6:2;
-    unsigned char front_net7:2;
-    unsigned char front_net8:2;
+    unsigned char mtu1_front_net5:2;
+    unsigned char mtu1_front_net6:2;
+    unsigned char mtu1_front_net7:2;
+    unsigned char mtu1_front_net8:2;
+    
+    unsigned char mtu2_front_power:2;
+    unsigned char mtu2_front_fiber:2;
+    unsigned char mtu2_front_net:2;          
+    unsigned char mtu2_back_net:2;
+    
+    unsigned char mtu2_front_net1:2;
+    unsigned char mtu2_front_net2:2;
+    unsigned char mtu2_front_net3:2;
+    unsigned char mtu2_front_net4:2;
+    
+    unsigned char mtu2_front_net5:2;
+    unsigned char mtu2_front_net6:2;
+    unsigned char mtu2_front_net7:2;
+    unsigned char mtu2_front_net8:2;
 }__attribute__((__packed__)) MTT441_ALARM_INFO;
 
 
@@ -1122,7 +1137,7 @@ typedef struct MTT_441_STATE
     unsigned char mtu1_resv1:1;
     unsigned char mtu1_power:1;
     unsigned char mtu1_resv2:1;
-    unsigned char mtu1_optical:1;
+    unsigned char mtu1_fiber:1;
     unsigned char mtu1_resv3:1;
     unsigned char mtu1_front_netport:1;
     unsigned char mtu1_back_netport1:1;
@@ -1148,7 +1163,7 @@ typedef struct MTT_441_STATE
     unsigned char mtu2_resv1:1;
     unsigned char mtu2_power:1;
     unsigned char mtu2_resv2:1;
-    unsigned char mtu2_optical:1;
+    unsigned char mtu2_fiber:1;
     unsigned char mtu2_resv3:1;
     unsigned char mtu2_front_netport:1;
     unsigned char mtu2_back_netport1:1;

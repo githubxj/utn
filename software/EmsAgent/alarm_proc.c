@@ -372,6 +372,29 @@ void genCardAlarm(sqlite3 *db, unsigned char alarmType, unsigned char serverity,
 	genAlarm(db, alarmType, serverity, card_no, port_no, 0, 0);
 }
 
+#if 1 // 201708
+void check_alarm_mtt441(sqlite3* db, MTT441_ALARM_INFO* alm)
+{
+    if (alm->mtu1_front_power == 2) // 掉电
+    {
+        genAlarm(db, ATYPE_RMTPOWERDOWN, getServerity(ATYPE_RMTPOWERDOWN), cardData[i].card_no,  0,  0, 0);
+    }
+    
+    if (alm->mtu1_front_fiber == 2) // 光口下线
+    {
+        genAlarm(db, ATYPE_MTU_FIBER_OFFLINE, getServerity(ATYPE_MTU_FIBER_OFFLINE), cardData[i].card_no,  0,  0, 0);
+    }
+}
+
+void check_alarm_mtt411(sqlite3* db, MTT411_ALARM_INFO* alm)
+{
+    if (alm->mtu1_front_power == 2) // 掉电
+    {
+        genAlarm(db, ATYPE_RMTPOWERDOWN, getServerity(ATYPE_RMTPOWERDOWN), cardData[i].card_no,  0,  0, 0);
+    }
+}
+#endif
+
 unsigned char getServerity(unsigned char alarmType)
 {
 	unsigned char serverity;
@@ -499,8 +522,8 @@ void check_cardAlarms()
                         calc_len = 2 + alarm_rsp->alarmNum * sizeof(MTT411_ALARM_INFO);
                     }
                     else if (cardData[i].card_type == CARD_TYPE_MTT_441) //  201708
-                    {
-                        calc_len = 2 + alarm_rsp->alarmNum * sizeof(MTT441_ALARM_INFO);
+                    {// alarmNum忽略
+                        calc_len = 2 + /*alarm_rsp->alarmNum **/ sizeof(MTT441_ALARM_INFO);
                     }
 #endif                    
     				break;
@@ -947,10 +970,12 @@ void check_cardAlarms()
                 if (cardData[i].card_type == CARD_TYPE_MTT_411)
                 {
                     MTT411_ALARM_INFO* alm = (MTT411_ALARM_INFO*)&alarm_rsp->data.mtt_alarms;
+                    check_alarm_mtt411(db, alm);                    
                 }
                 else if (cardData[i].card_type == CARD_TYPE_MTT_441)
                 {
                     MTT441_ALARM_INFO* alm = (MTT441_ALARM_INFO*)&alarm_rsp->data.mtt_alarms;
+                    check_alarm_mtt441(db, alm);                    
                 }
             }
 
