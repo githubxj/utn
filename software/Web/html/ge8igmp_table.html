@@ -1,0 +1,54 @@
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="5" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4">IGMP</td>
+</tr><tr> 
+	<input type="hidden" name="igmp_vlannum" id="igmp_vlannum" value=${igmp_vlannum}>
+	<input type="hidden" name="router_port" id="router_port" value= ${router_port}>
+	<td width="25%">IGMP Enable:</td>
+	<td width="25%"><input type="CHECKBOX" name='igmp_enable' id='igmp_enable' ${igmp_enable}>启用</td>
+</tr><tr> 
+	<td>IPMC Flooding enabled:</td>
+	<td><input type="CHECKBOX" name='igmp_flood' id='igmp_flood' ${igmp_flood}>启用</td> 
+	
+</tr>
+
+<tr> 
+	<td>Router Ports:</td>
+	<td><input type="CHECKBOX" name='igmp_p0' id='igmp_p0' ${igmp_p0}>1</input>
+		<input type="CHECKBOX" name='igmp_p1' id='igmp_p1' ${igmp_p1}>2</input>
+		<input type="CHECKBOX" name="igmp_p2" id='igmp_p2' ${igmp_p2}>3</input>
+		<input type="CHECKBOX" name="igmp_p3" id='igmp_p3' ${igmp_p3}>4</input>
+		<input type="CHECKBOX" name="igmp_p4" id='igmp_p4' ${igmp_p4}>5</input>
+		<input type="CHECKBOX" name="igmp_p5" id='igmp_p5' ${igmp_p5}>6</input>
+		<input type="CHECKBOX" name="igmp_p6" id='igmp_p6' ${igmp_p6}>7</input>
+		<input type="CHECKBOX" name="igmp_p7" id='igmp_p7' ${igmp_p7}>8</input></td>  	   	   
+</tr>
+
+<tr> 
+
+</tr>
+</tbody></table>
+
+
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="5" align="center">
+<tbody>
+<td class="bar" colspan="4"></td>
+<tr> 
+	<td width="33%">VLAN ID:</td>
+	<td width="33%">IGMP Snooping Enabled</td>
+	<td width="33%">IGMP Querying Enabled</td>
+	
+</tr>
+${igmp_iems}
+
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('setigmp');"></td>  
+ 	</table>
+</tr> 
+ 
+
+</tbody></table>

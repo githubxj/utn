@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>${_L_fsa}600 Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link href="/css/ajaxtabs.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+function CheckSubmit(submit_action) 
+{	
+	
+	if(isNumber(getObject("up_stream"), "上行带宽")==false)   
+		{	
+			return;
+		}
+		if(isNumber(getObject("down_stream"), "下行带宽")==false)   
+		{	
+			return;
+		}
+		
+ if(getConfirm())
+ {
+			if ( xmlHttp )
+			{
+					var act =	 submit_action;
+					var cardno = getObjectvalue("cardno");
+					 
+					var sfpIndex = getObjectvalue("sfpIndex");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno + "&sfpIndex=" + sfpIndex + "&action=" + act + "&card_name=" + getObjectvalue("card_name");
+					sendData = sendData + "&port_lock=" + getObjectvalue("port_lock") + "&transmit_mode=" + getObjectvalue("transmit_mode") ;
+					sendData = sendData + "&up_stream=" + getObjectvalue("up_stream") + "&down_stream=" + getObjectvalue("down_stream") + "&node_id=" + getObjectvalue("node_id");
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						
+								getObject("fsa600contents").innerHTML =  xmlHttp.responseText;
+						
+						
+				}
+			
+			}
+			else
+			 {
+						
+								getObject("fsa600contents").innerHTML =  "数据正在提交中......";
+						
+				}
+	
+	
+}
+
+
+function Submitform(submit_action)
+{
+    if(isEnAndNum(document.getElementById("card_name"), "板卡名称")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("card_name"), 16)==false)   
+			return;
+    document.getElementById("action").value = submit_action;
+    
+    if(getConfirm()){
+				document.form600.submit();
+			
+    }
+}
+
+
+
+</script>
+<body >
+<h1>${_L_fsa}600板卡信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" name="form600" method="POST">
+<input type="hidden" name="sessionID" value="{sessionID}">
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="sfpIndex" id="sfpIndex" value=${sfpIndex}>
+<input type="hidden" name="action" id="action" >
+<div id="baseinfo" class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4">基本信息</td>
+</tr><tr>  
+	<td width="25%">板卡类型:</td>   
+	<td width="25%">${card_type}</td>
+	<td width="25%">板卡号:</td>   
+	<td width="25%">${card_no}</td>
+</tr><tr>  
+	<td>硬件版本:</td>   
+	<td>${version_hw}</td>
+	<td>固件版本:</td>   
+	<td>${version_fw}</td>
+</tr><tr>  
+	<td>软件版本:</td>   
+	<td>${version_sw}</td>
+	<td>操作系统版本:</td>   
+	<td>${version_os}</td>
+</tr><tr>  
+	<td>板卡名称:</td>   
+	<td><input type="text" name="card_name" id="card_name" size="16" value="${card_name}" ></td>
+	<td></td>   
+	<td></td>
+</tr>
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="Submitform('base');"></td>
+</tr> 
+</tbody></table>
+</div>
+
+
+<div id="fsa600tabs" class="modernbricksmenu2">
+<ul>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&sfpIndex=1&flag=local" rel="fsa600contents" class="selected">本地模块-1</a></li>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&sfpIndex=2&flag=local" rel="fsa600contents" >本地模块-2</a></li>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&sfpIndex=3&flag=local" rel="fsa600contents" >本地模块-3</a></li>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&sfpIndex=4&flag=local" rel="fsa600contents" >本地模块-4</a></li>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&sfpIndex=5&flag=local" rel="fsa600contents" >本地模块-5</a></li>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&sfpIndex=6&flag=local" rel="fsa600contents" >本地模块-6</a></li>
+</ul>
+</div>
+<div id="fsa600contents" class="contentstyle">
+</div>
+
+</form>
+<script>
+var fsa600tab = new ddajaxtabs("fsa600tabs", "fsa600contents")
+fsa600tab.setpersist(true)
+fsa600tab.setselectedClassTarget ("linkparent")
+fsa600tab.init ()
+</script>
+</div>
+</body>
+</html>

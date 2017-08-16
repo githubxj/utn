@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OSD Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function CheckSubmit(submit_action) 
+{
+		document.getElementById("action").value = submit_action;
+    if(getConfirm()){
+				document.CardForm.submit();
+    }
+}
+
+
+                                                                  
+</script>
+<body>
+<h1>编码卡通道 OSD</h1>
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" value="${cardno}">
+<input type="hidden" name="action">
+<table width="80%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4> 通道OSD</td>
+</tr><tr>  
+	<td width="20%">通道号:</td>   
+	<td width="30%">${channel_no}</td>
+	<td width="20%">通道名与时间的位置:</td>   
+	<td width="30%">${location}</td>
+</tr><tr>  
+	<td>通道名称:</td>   
+	<td><input type="text" size="16" name="channel_name" id="channel_name" value="${channel_name}" ></td>
+	<td>OSD颜色:</td>   
+	<td>${osd_color}</td>
+</tr><tr>  
+	<td>时间显示:</td>   
+	<td>${show_time}</td>
+	<td>视频丢失显示:</td>   
+	<td>${vlost}</td>
+</tr><tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('osd_set');"></td>
+</tr> </tbody>
+
+</form>
+</body>
+</html>

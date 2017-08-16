@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>FE8 Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript" >
+
+
+	var xmlHttp = createXMLOBJ();
+	var act;
+function CheckSubmit(submit_action) 
+{	
+		act =	 submit_action;
+		if (act == "port")
+		{
+			if ( isMAC(getObject("fe_bounded_mac")) == false )
+			{
+					return;
+			}
+			
+			if(isNumber(getObject("fe_bw_alloc_send"), "发送分配带宽")==false)   
+			{	
+				return;
+			}
+			if(isNumber(getObject("fe_bw_alloc_recv"), "接收分配带宽")==false)   
+			{	
+				return;
+			}
+		}
+		else if (act == "base")
+		{
+				if(isEnAndNum(document.getElementById("card_name"), "板卡名称")==false)   
+				{	
+					return;
+				}
+				if(checkLength(document.getElementById("card_name"), 16)==false)   
+					return;
+		}
+		else if (act == "setBroadcastStorm")
+		{
+			if(isNumber(getObject("storm_threshold"), "广播风暴阈值")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("storm_threshold"),0,2047,"广播风暴阈值")==false)
+			{
+				return;
+			}
+		}
+		
+
+ if(getConfirm())
+ {
+			if ( xmlHttp )
+			{
+					var cardno = getObjectvalue("cardno");
+					var sendData;
+					sendData = "sessionID=${sessionID}&action=" + act + "&cardno=" +cardno;
+					if (act == "port")
+					{
+						var portno = getObjectvalue("portno");
+						sendData = sendData + "&portno=" + portno;
+						sendData = sendData + "&fe_admin_state=" + getObjectvalue("fe_admin_state") + "&fe_bw_alloc_send=" + getObjectvalue("fe_bw_alloc_send") + "&fe_bw_alloc_recv=" + getObjectvalue("fe_bw_alloc_recv");
+						sendData = sendData + "&fe_port_mode=" + getObjectvalue("fe_port_mode") + "&fe_bounded_mac=" + getObjectvalue("fe_bounded_mac");
+						sendData = sendData +  "&fe_working_mode=" + getObjectvalue("fe_working_mode");
+					}
+					else if (act == "base")
+					{
+							sendData = sendData + "&card_name=" + getObjectvalue("card_name") + "&admin_state=" + getObjectvalue("admin_state");
+					}
+					else if (act == "setBroadcastStorm")
+					{
+						sendData = sendData + "&storm_ctrl=" + getObjectvalue("storm_ctrl") + "&storm_threshold=" + getObjectvalue("storm_threshold");
+						//alert(sendData);
+					}
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+					
+						if ( act == "port")
+						{
+								getObject("admin_state_V").innerHTML =  xmlHttp.responseText;
+						}
+						if ( (act == "base") || (act == "setBroadcastStorm"))
+						{
+								getObject("basecontents").innerHTML =  xmlHttp.responseText;
+						}
+				}
+
+			
+			}
+			else
+			 {
+						
+						if ( act == "port")
+						{
+								getObject("admin_state_V").innerHTML =  "数据正在提交中......";
+						}
+						if ( (act == "base") || (act == "setBroadcastStorm"))
+						{
+								getObject("basecontents").innerHTML =  "数据正在提交中......";
+						}
+				}
+	
+	
+}
+   
+                                                                  
+</script>
+<body onload="onloadportdiv('admin_state');">
+<h1>FE8卡配置与状态信息</h1>
+
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="POST" name="fe8form">
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="node_id" id="node_id" value=${node_id}>
+<input type="hidden" name="action" id="action">
+
+
+<div id="basetab" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=base" rel="basecontents" class="selected">基本信息</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=broadcastStorm" rel="basecontents">广播风暴</a></li>
+</ul>
+</div>
+
+<div id="basecontents" class="contentstyle">
+</div>
+
+<div id="admin_state_L" class="modernbricksmenu2"   >
+<ul>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=1" rel="admin_state_V" class="selected">端口-1</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=2" rel="admin_state_V" >端口-2</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=3" rel="admin_state_V" >端口-3</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=4" rel="admin_state_V" >端口-4</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=5" rel="admin_state_V" >端口-5</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=6" rel="admin_state_V" >端口-6</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=7" rel="admin_state_V" >端口-7</a></li>
+	<li ><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=fe8port&portno=8" rel="admin_state_V" >端口-8</a></li>
+	
+</ul>
+</div>
+
+<div id="admin_state_V" class="contentstyle"  >
+</div>
+
+</form>
+<script defer type="text/javascript">
+var basetab = new ddajaxtabs("basetab", "basecontents")	
+basetab.setpersist(true)
+basetab.setselectedClassTarget("linkparent")
+basetab.init()
+
+var porttab = new ddajaxtabs("admin_state_L", "admin_state_V")
+porttab.setpersist(true)
+porttab.setselectedClassTarget("linkparent") //"link" or "linkparent"
+porttab.init() 
+</script>
+</div>
+
+<br>
+<br>
+</body>
+</html>

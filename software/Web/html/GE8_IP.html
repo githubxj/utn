@@ -1,0 +1,30 @@
+﻿<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4></td>
+</tr><tr>
+	<td width="%50">IP地址:</td>
+	<td width="%50"><input type="text"  name="encode_ip" id="encode_ip" size="16" value="${encode_ip}" ></td>
+	
+</tr><tr>
+	<td width="%50">子网掩码:</td>
+	<td width="%50"><input type="text"  name="encode_mask" id="encode_mask" size="16" value="${encode_mask}" ></td>
+	
+</tr><tr>
+	<td width="%50">网关:</td>
+	<td width="%50"><input type="text"  name="encode_gateway" id="encode_gateway" size="16" value="${encode_gateway}" ></td>
+	
+</tr><tr>
+	<td width="%50">MAC:</td>
+	<td width="%50"><input type="text"  name="encode_mac" id="encode_mac"  size="16" value="${encode_mac}" ></td>
+	
+</tr>
+<tr>
+<td width="%50">IP Enable:</td>
+	<td width="%50"><input type="CHECKBOX" name='ip_enable' id='ip_enable' ${ip_enable} ></td>
+	</tr>
+<tr>  
+ 	<td align=left colspan=4 ><input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmit('net_set');" ></td>
+</tr> 
+</tbody></table>
+<input type="hidden" name="ch_no" value=${ch_no}>

@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>ONU ID Management</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+var act;
+
+function CheckSubmit() 
+{
+    if(getConfirm()){
+				document.CardForm.submit();
+    }
+}
+
+function onSelectFSA()
+{
+	var object = document.getElementById("fsa_sel");
+	if(object != null) {
+	var fsa_card_no =document.getElementById("fsa_sel").value;
+
+			if ( xmlHttp )
+			{
+					var sendData;
+										
+					sendData = "sessionID=${sessionID}&action=list&cardno=" + fsa_card_no;
+						
+					xmlHttp.open("POST","/cgi-bin/onuid.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}		
+	}
+}     
+
+function SetOnuID(onu_id)
+{
+	var object = document.getElementById("fsa_sel");
+	if(object == null) {
+			return;
+	}
+	var fsa_card_no = object.value;
+
+	var input_name = "new_id" + onu_id;
+	var dsn_name = "dsn" + onu_id;
+	//alert(input_name);
+	
+	var object_newid = document.getElementById(input_name);
+//	alert(object_newid.value);
+	
+	if(object_newid.value == onu_id)
+	{
+		return;
+	}
+				
+	if(isInRange(object_newid,1,24,"新节点号")==false)
+	{
+		return;
+	}
+	
+	
+	if ( xmlHttp )
+	{
+		var sendData;
+										
+		sendData = "sessionID=${sessionID}&action=set&cardno=" + fsa_card_no + "&onunode=" + onu_id + "&newid=" + object_newid.value;
+		sendData = sendData + "&dsn=" + document.getElementById(dsn_name).value;
+						
+//		alert(sendData);				
+		xmlHttp.open("POST","/cgi-bin/onuid.cgi");
+		xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+		xmlHttp.setRequestHeader ("Content-length", sendData.length);
+		xmlHttp.setRequestHeader ("Connection", "close");
+		xmlHttp.onreadystatechange=show_setrslt;
+		xmlHttp.send(sendData);
+		
+	}		
+
+}               
+
+function Reset(onu_id)
+{
+	var object = document.getElementById("fsa_sel");
+	if(object == null) {
+			return;
+	}
+	var fsa_card_no = object.value;
+
+ //alert(onu_id);
+	if(getConfirm()){
+		if ( xmlHttp )
+		{
+			var sendData;
+											
+			sendData = "sessionID=${sessionID}&action=reset&cardno=" + fsa_card_no + "&onunode=" + onu_id;
+							
+	//		alert(sendData);				
+			xmlHttp.open("POST","/cgi-bin/onuid.cgi");
+			xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			xmlHttp.setRequestHeader ("Content-length", sendData.length);
+			xmlHttp.setRequestHeader ("Connection", "close");
+			xmlHttp.onreadystatechange=show_reset_rslt;
+			xmlHttp.send(sendData);
+			
+		}		
+	}
+}               
+var wait;
+var wait_text;
+
+function wait_to_refresh()
+{
+	if (wait == 0)
+	{
+		onSelectFSA();		
+	}
+	else
+	{
+			document.getElementById("list_contents").innerHTML = wait_text;
+			wait--;
+			wait_text = wait_text + ".";
+			
+			window.setTimeout("wait_to_refresh()" , 1000);
+	}
+}
+
+function show_reset_rslt ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						if( xmlHttp.responseText == 0)
+						{
+							alert("重启成功！");
+						}
+						else
+						{
+							alert(xmlHttp.responseText);
+						}
+				}
+		}
+} 
+function show_setrslt ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						if( xmlHttp.responseText == 0)
+						{
+							wait = 3;
+							wait_text = ".";
+							wait_to_refresh();
+						}
+						else
+						{
+							alert(xmlHttp.responseText);
+						}
+				}
+		}
+} 
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						getObject("list_contents").innerHTML =  xmlHttp.responseText;
+				}
+		}
+		else
+		{
+				getObject("list_contents").innerHTML =  "......";
+		}
+} 
+                                                                  
+</script>
+<body>
+<h1>${_L_onu}节点号管理</h1>
+
+<table width="100%" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+<td align="right" width="40%">选择设备：</td>
+<td align="left" width="60%"><select class='fixsize' name='fsa_sel' id='fsa_sel' onchange='onSelectFSA();'>${fsa_list}</select>
+<input class="btn" type="button" name="Refresh" value="刷新"  onclick="onSelectFSA();" 
+		style="width : 100px; padding-top: 3px; vertical-align:top;">
+</td>
+</tr>
+</tbody>	
+</table>
+
+<form action="/cgi-bin/onuid.cgi" method="Post" name="SetOnuId" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+</form>
+
+<div id="con">
+<div class="basecontent" id="list_contents">
+
+</div>
+</div>
+
+</body>
+</html>

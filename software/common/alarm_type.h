@@ -1,0 +1,51 @@
+#define  ATYPE_PSAON			1
+#define  ATYPE_PSAOFF			2
+#define  ATYPE_PSBON			3
+#define  ATYPE_PSBOFF			4
+#define  ATYPE_FANON			5
+#define  ATYPE_FANOFF			6
+#define  ATYPE_FANFAIL			7
+
+
+#define  ATYPE_CARDONLINE		20
+#define  ATYPE_CARDOFFLINE		21
+#define  ATYPE_CARDFAILURE		22
+#define  ATYPE_CARDRESTART		23
+
+
+
+#define  ATYPE_SFPINSERTED		30	
+#define  ATYPE_SFPREMOVED		31
+
+
+#define  ATYPE_PORTUP			40
+#define  ATYPE_PORTDOWAN		41
+#define  ATYPE_FXUP				42
+#define  ATYPE_FXDOWN			43
+#define  ATYPE_LOCETH_UP		44  // 201611
+#define  ATYPE_LOCETH_DOWN		45
+#define  ATYPE_OVER_TEMP        47  //  201611ÎÂ¶È¹ý¸ß
+
+
+#define  ATYPE_ONUONLINE		50
+#define	 ATYPE_ONUOFFLINE		51
+#define  ATYPE_ONUSFPINSERTED	52
+#define  ATYPE_ONUSFPREMOVED	53
+#define  ATYPE_ONUPORTUP		54
+#define  ATYPE_ONUPORTDOWN		55
+#define  ATYPE_RMTPOWERDOWN	    56
+
+#define  ATYPE_ONUNAMECHG		58 /*only used for onu list sychronization between FSA12500 and CTRL card */
+#define  ATYPE_ONUSNCHG		    59 /*only used for onu list sychronization between FSA12500 and CTRL card */
+
+#define	 ATYPE_ONETRINGSTANDBYFAILURE	60
+#define  ATYPE_ONETRINGSTANDBYRESTORE	61
+#define  ATYPE_ONETRINGFAILURE		62
+#define  ATYPE_ONETRINGRESTORE		63
+#define	 ATYPE_ONETRINGBROKEN		64
+#define  ATYPE_ONETLINKBROKEN		65
+#define  ATYPE_ONETLINKRESTORE		66  
+
+#define  ATYPE_ONUSFPERROR			67
+#define  ATYPE_ONUSFPRESTORE		68
+

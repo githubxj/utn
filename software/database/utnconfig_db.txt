@@ -1,0 +1,86 @@
+CREATE TABLE FE8Card (
+CardNo smallint NOT NULL ,
+adminState smallint, 
+CardName varchar (20),
+PRIMARY KEY(CardNo)
+);
+
+CREATE TABLE FE8CardPort (
+CardNo smallint NOT NULL ,
+PortNo smallint NOT NULL ,
+adminState smallint DEFAULT 1, 
+portMode smallint DEFAULT 1,
+portWM   smallint DEFAULT 1,
+bwSend	   int  DEFAULT 0,
+bwRecv	   int  DEFAULT 0,
+boundMac	verchar(6),
+PRIMARY KEY(CardNo, PortNo)
+);
+
+CREATE TABLE FSA600 (
+CardNo smallint NOT NULL,
+localIndex	smallint NOT NULL,
+portState	smallint DEFAULT 0,
+transmitmMode	smallint DEFAULT 1,
+upStreamFlag	smallint DEFAULT 1,
+upStream	int DEFAULT	0,
+downStreamFlag	smallint DEFAULT 1
+downStream	int DEFAULT 0,
+resetFlag			smallint DEFAULT 1,
+PRIMARY KEY (CardNo, localIndex)
+);
+
+CREATE TABLE ONU100 (
+CardNo smallint NOT NULL,
+onuId	 smallint NOT NULL,
+OnuName		verchar (20),
+transmitmMode	smallint DEFAULT 1,
+cfgWorkMode1	smallint DEFAULT 1,
+cfgWorkMode2	smallint	DEFAULT 1,
+resetFlag			smallint DEFAULT 1,
+PRIMARY KEY (CardNo,onuId)
+);
+
+
+/* this used for FSA */
+CREATE TABLE FSACard (
+CardNo smallint NOT NULL ,
+adminState smallint, 
+CardName varchar (20),
+PRIMARY KEY(CardNo)
+);
+
+CREATE TABLE FSACardPort (
+CardNo smallint NOT NULL ,
+PortNo smallint NOT NULL ,
+adminState smallint DEFAULT 1, 
+portMode smallint DEFAULT 1,
+portWM   smallint DEFAULT 1,
+bwSend	   int  DEFAULT 0,
+bwRecv	   int  DEFAULT 0,
+boundMac	verchar(6),
+PRIMARY KEY(CardNo, PortNo)
+);
+
+/* this used for switch card */
+CREATE TABLE VLAN (
+VlanID smallint NOT NULL ,
+utportbitmap	 int  DEFAULT 0,
+portbitmap	   int  DEFAULT 0,
+PRIMARY KEY(VlanID)
+);
+
+CREATE TABLE MULTICAST (
+GrpIp int NOT NULL ,
+portbitmap	   int  DEFAULT 0,
+flag int DEFAULT 1,
+PRIMARY KEY(GrpIp)
+);
+
+CREATE TABLE L3INTF (
+id smallint NOT NULL,
+vlan smallint DEFAULT 0,
+ip varchar (16),
+mask varchar (16),
+PRIMARY KEY(id)
+);

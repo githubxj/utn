@@ -1,0 +1,68 @@
+
+#topleft {
+	margin: 0px;
+	padding: 0px;
+	width : 110px;
+	height: 75px;
+	background: url(/images/bluering_lt.gif) no-repeat right bottom;
+}
+
+#topright {
+	margin: 0px;
+	padding: 0px;
+	width : 110px;
+	height: 75px;
+	background: url(/images/bluering_rt.gif) no-repeat left bottom;
+}
+
+#bottomleft {
+	margin: 0px;
+	padding: 0px;
+	width : 110px;
+	height: 75px;
+	background: url(/images/bluering_lb.gif) no-repeat right top;
+}
+
+#bottomright {
+	margin: 0px;
+	padding: 0px;
+	width : 110px;
+	height: 75px;
+	background: url(/images/bluering_rb.gif) no-repeat left top;
+}
+
+table {
+	font-size: 0.9em; 
+}
+
+table td{
+	text-align: center;
+}
+
+td.node-h {
+	width : 32px;
+	height: 60px;	
+}
+
+td.vl {
+	width : 80px;
+	height: 32px;	
+	background:url(/images/bluering_v.gif) repeat-y;
+}
+
+td.vl-fit {
+	width : 80px;
+	height: 16px;	
+	background:url(/images/bluering_v.gif) repeat-y;
+}
+
+td.hl {
+	width : 60px;
+	height: 60px;	
+	background: url(/images/bluering_h.gif) repeat-x;
+}
+td.hl-fit {
+	height: 60px;	
+	width: 32px;	
+	background: url(/images/bluering_h.gif) repeat-x;
+}

@@ -1,0 +1,29 @@
+<input type="hidden" name="portno" id="portno" value=${portno}>
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4></td>
+</tr><tr>  
+	<td width="20%">端口管理状态:</td> 
+	<td width="30%">${fe_admin_state}</td>  
+	<td width="20%">端口状态:</td>  
+	<td width="30%">${fe_port_state}</td>
+</tr><tr>
+	<td>发送分配带宽:</td>
+	<td><input type="text" name="fe_bw_alloc_send" id="fe_bw_alloc_send" size="16" value="${fe_bw_alloc_send}" >Kbps</td>
+	<td>接收分配带宽:</td>  
+	<td><input type="text" name="fe_bw_alloc_recv" id="fe_bw_alloc_recv" size="16" value="${fe_bw_alloc_recv}" >Kbps</td>
+</tr><tr>
+	<td>端口学习模式:</td>
+	<td >${fe_port_mode}</td>
+	<td ><div id="fe_port_mode_L" style="visibility:hidden;">绑定MAC:</div></td>   
+	<td ><div id="fe_port_mode_V" style="visibility:hidden;"><input type="text" name="fe_bounded_mac" id="fe_bounded_mac" size="16" value="${fe_bounded_mac}" ></div></td>
+</tr><tr>
+	<td>端口工作模式:</td>
+	<td>${fe_working_mode}</td>
+	<td align="right" colspan=4><a class="pagelink" href="/cgi-bin/perfview.cgi?sessionID=${sessionID}&cardno=${card_no}&onuno=${node_id}&portno=${portno}">${portno}号网口流量统计信息>></a></td>
+</tr>
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('port');"></td>
+</tr> 
+</tbody></table>

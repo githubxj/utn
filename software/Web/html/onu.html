@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>Node Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+var act;
+
+function getCheckValue(elementID)
+{
+	if(document.getElementById(elementID).checked)      
+	{
+		return("on");
+	}
+	else
+	{
+		return("");
+	}
+}
+function CheckSubmit(submit_action) 
+{	
+		act =	 submit_action;
+		if (act == "port")
+		{
+			if ( isMAC(getObject("fe_bounded_mac")) == false )
+			{
+					return;
+			}
+			if(isNumber(getObject("fe_bw_alloc_send"), "发送分配带宽")==false)   
+			{	
+				return;
+			}
+			if(isNumber(getObject("fe_bw_alloc_recv"), "接收分配带宽")==false)   
+			{	
+				return;
+			}
+		}
+		else if (act == "setbase")
+		{
+				if(isEnAndNum(document.getElementById("onuname"), "节点名称")==false)   
+				{	
+					return;
+				}
+				if(checkLength(document.getElementById("onuname"), 16)==false)   
+					return;
+				if(isNumber(getObject("storm_threshold"), "广播风暴阈值")==false)   
+				{	
+					return;
+				}
+				if(isInRange(document.getElementById("storm_threshold"),0,2047,"广播风暴阈值")==false)
+				{
+					return;
+				}
+		}
+		else if (act == "datach1")
+		{
+				if(isNumber(getObject("data_buff1"), "数据接收缓冲")==false)   
+				{	
+					return;
+				}
+				if(isInRange(document.getElementById("data_buff1"),0,255,"数据接收缓冲")==false)
+				{
+					return;
+				}
+		}
+		else if (act == "datach2")
+		{
+				if(isNumber(getObject("data_buff2"), "数据接收缓冲")==false)   
+				{	
+					return;
+				}
+				if(isInRange(document.getElementById("data_buff2"),0,255,"数据接收缓冲")==false)
+				{
+					return;
+				}
+		}
+ if(getConfirm())
+ {
+			if ( xmlHttp )
+			{
+					var cardno = getObjectvalue("cardno");
+					var sendData;
+					sendData = "sessionID=${sessionID}&cardno=" +getObjectvalue("cardno") + "&onunode=" +getObjectvalue("onunode");
+					if (act == "port")
+					{
+							var portno = getObjectvalue("portno");
+							sendData = sendData + "&action=port" + "&portno=" + portno;
+							sendData = sendData + "&fe_admin_state=" + getObjectvalue("fe_admin_state") + "&fe_bw_alloc_send=" + getObjectvalue("fe_bw_alloc_send") + "&fe_bw_alloc_recv=" + getObjectvalue("fe_bw_alloc_recv");
+							sendData = sendData + "&fe_port_mode=" + getObjectvalue("fe_port_mode") + "&fe_bounded_mac=" + getObjectvalue("fe_bounded_mac");
+							sendData = sendData +  "&fe_working_mode=" + getObjectvalue("fe_working_mode");
+						
+					}
+					else if (act == "setbase")
+					{
+							sendData = sendData + "&action=setbase" + "&onuname=" + getObjectvalue("onuname") + "&admin_state=" + getObjectvalue("admin_state");
+							sendData = sendData + "&storm_ctrl=" + getObjectvalue("storm_ctrl") + "&storm_threshold=" + getObjectvalue("storm_threshold") ;
+					}
+					else if (act == "datach1")
+					{
+							sendData = sendData + "&action=datach" + "&port_sel=" + getObjectvalue("port_sel1") + "&baudrate=" + getObjectvalue("baudrate1") + "&data_buff=" + getObjectvalue("data_buff1");
+							sendData = sendData + "&port=0";
+					}
+					else if (act == "datach2")
+					{
+							sendData = sendData + "&action=datach" + "&port_sel=" + getObjectvalue("port_sel2") + "&baudrate=" + getObjectvalue("baudrate2") + "&data_buff=" + getObjectvalue("data_buff2");
+							sendData = sendData + "&port=1";			
+					}
+					else if (act == "io")
+					{
+							sendData = sendData + "&action=io" + "&out_sel=" + getObjectvalue("out_sel") + "&out_value=" + getObjectvalue("out_value");
+					}
+					else if (act == "reset")
+					{
+							sendData = sendData + "&action=reset";
+					}
+					else if (act == "portmirror")
+					{
+							sendData = sendData + "&action=" + act + "&port1Mirror=" + getCheckValue("port1Mirror") + "&port1Rx=" + getCheckValue("port1Rx") + "&port1Tx=" + getCheckValue("port1Tx");
+							sendData = sendData + "&port2Mirror=" + getCheckValue("port2Mirror") + "&port2Rx=" + getCheckValue("port2Rx") + "&port2Tx=" + getCheckValue("port2Tx");
+							sendData = sendData + "&port3Mirror=" + getCheckValue("port3Mirror") + "&port3Rx=" + getCheckValue("port3Rx") + "&port3Tx=" + getCheckValue("port3Tx");
+							sendData = sendData + "&port4Mirror=" + getCheckValue("port4Mirror") + "&port4Rx=" + getCheckValue("port4Rx") + "&port4Tx=" + getCheckValue("port4Tx");
+							sendData = sendData + "&port5Mirror=" + getCheckValue("port5Mirror") + "&port5Rx=" + getCheckValue("port5Rx") + "&port5Tx=" + getCheckValue("port5Tx");
+							sendData = sendData + "&badframes=" + getCheckValue("badframes") + "&sourceanddestination=" + getCheckValue("sourceanddestination");
+					}
+					else if (act == "qos")
+					{
+							sendData = sendData + "&action=" + act + "&port1priority_enable=" + getObjectvalue("port1priority_enable") + "&port2priority_enable=" + getObjectvalue("port2priority_enable");
+							sendData = sendData + "&port3priority_enable=" + getObjectvalue("port3priority_enable") + "&port4priority_enable=" + getObjectvalue("port4priority_enable") + "&port5priority_enable=" + getObjectvalue("port5priority_enable");
+							sendData = sendData + "&priorityScheme_select=" + getObjectvalue("priorityScheme_select");
+					}
+					xmlHttp.open("POST","/cgi-bin/chgonu.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+				
+			if ( act == "port")
+			{
+				getObject("portcontents").innerHTML =  xmlHttp.responseText;
+			}
+			else
+			{
+				getObject("basecontents").innerHTML =  xmlHttp.responseText;
+			}
+		}
+	}
+	else
+	{
+		if ( act == "port")
+		{
+			getObject("portcontents").innerHTML =  "数据正在提交中......";
+		}
+		else
+		{
+			getObject("basecontents").innerHTML =  "数据正在提交中......";
+		}
+	}
+}
+
+/*function vlanSubmit() 
+{	
+	//document.ONUForm.action = "/cgi-bin/chgonu.cgi?flag=add";
+	ONUForm.attributes[83].value = "/cgi-bin/chgonu.cgi?flag=add";
+	document.ONUForm.submit();
+	alert("3");
+	alert(document.getElementById("sessionID").value);
+	alert(getObjectvalue("cardno"));
+	//alert(document.ONUForm.action);
+	alert(ONUForm.attributes[83].value);
+}*/	
+
+                                      
+</script>
+<body>
+<h1>${_L_onu}节点配置信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgonu.cgi" method="Post" name="ONUForm" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<input type="hidden" name="cardno" id="cardno" value=${cardno}>
+<input type="hidden" name="onunode" id="onunode" value=${node_id}>
+
+<div id="basetab" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=base" rel="basecontents" class="selected">基本信息</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=datach" rel="basecontents">数据通道</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=io" rel="basecontents">I/O 开关量</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=portmirror" rel="basecontents">端口镜像</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=qos" rel="basecontents">服务质量</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=vlan" rel="basecontents">VLAN</a></li>
+</ul>
+</div>
+
+<div id="basecontents" class="contentstyle">
+</div>
+
+<div id="porttab" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=port&portno=1" rel="portcontents" class="selected">端口-1</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=port&portno=2" rel="portcontents" >端口-2</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=port&portno=3" rel="portcontents" >端口-3</a></li>
+	<li><a href="/cgi-bin/show_onu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${node_id}&flag=port&portno=4" rel="portcontents" >端口-4</a></li>
+</ul>
+</div>
+
+<div id="portcontents" class="contentstyle" >
+</div>
+
+</form>
+
+<script defer type="text/javascript">
+var basetab = new ddajaxtabs("basetab", "basecontents")	
+basetab.setpersist(true)
+basetab.setselectedClassTarget("linkparent")
+basetab.init()
+	
+var porttab = new ddajaxtabs("porttab", "portcontents")
+porttab.setpersist(true)
+porttab.setselectedClassTarget("linkparent") //"link" or "linkparent"
+porttab.init() 
+</script>
+</div>
+</body>
+</html>

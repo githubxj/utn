@@ -1,0 +1,24 @@
+<table width="100%%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan="2"></td>
+</tr><tr>  
+	<td width="50%">当前设备时间:</td>   
+	<td width="50%">${encode_time}</td>
+</tr><tr>  
+	<td>设置设备时间:</td>   
+	<td><input type="text" name="encode_settime" id="encode_settime" value="${encode_settime}" size="16"></td>
+</tr><tr>  
+	<td>当前时区:</td>   
+	<td>中国标准时间</td>
+</tr><tr> 
+	<td colspan=2>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center">
+	<tr> 
+ 	<td align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('settime');"></td>
+ 	<td align=left><input class="btn" type="button" name="Submit" value="刷新"  onclick="CheckSubmit('gettime');"></td>
+ 	</tr>
+	</table>
+	</td>
+</tr>
+</tbody></table>

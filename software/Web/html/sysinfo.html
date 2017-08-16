@@ -1,0 +1,84 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>system information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link href="/css/tabs.css" type=text/css rel=StyleSheet>
+</head>
+<script>
+function CheckUpgrade() 
+{
+	if(document.updateForm.newversion.value == '')
+	{
+		alert("请选择上传文件");
+		document.updateForm.newversion.focus();
+		return;
+	} 
+
+	document.updateForm.submit();
+}  
+
+</script>
+
+<body>
+<h1>系统信息</h1>
+
+<table width="600" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+<td class="bar" colspan=2> 基本信息</td>
+</tr><tr>  
+	<td width="50%">产品型号:</td>   
+	<td width="50%">DM4000</td>
+</tr><tr>  
+ 	<td>系统描述:</td>   
+	<td>综合业务数字交换系统</td>
+</tr><tr>  
+ 	<td>硬件版本:</td>   
+	<td>V1.10</td>
+</tr><tr>  
+ 	<td>软件版本:</td>   
+	<td>V2.06 Build 20150417</td>
+</tr><tr>  
+<td class="bar" colspan=2>串口配置</td>
+</tr><tr>  
+ 	<td>波特率:</td>   
+	<td>115200 bps</td>
+</tr><tr>  
+ 	<td>数据位:</td>   
+	<td>8</td>
+</tr><tr>  
+ 	<td>奇偶校验:</td>   
+	<td>None</td>
+</tr><tr>  
+ 	<td>停止位:</td>   
+	<td>1</td>
+</tr><tr>  
+ 	<td>流量控制:</td>   
+	<td>None</td>
+ </tr> 
+
+</tbody></table>
+<br>
+
+<form action="/cgi-bin/upgrade.cgi" enctype="multipart/form-data" method="post" name="updateForm">
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="act" value="upgrade">
+<table width="600" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan='2'>系统软件升级</td>
+</tr>
+
+<tr>  
+	<td width="30%">升级包文件:</td>   
+	<td width="70%"><input type="file" name="newversion"></td>
+</tr>
+
+<tr>  
+ 	<td colspan='2' align='center'><input class="btn" type="button" name="Submit" value="升级" onclick='CheckUpgrade();'></td>
+</tr></tbody></table>
+</form>
+
+</body>
+</html>

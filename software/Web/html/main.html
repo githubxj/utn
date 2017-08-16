@@ -1,0 +1,16 @@
+<html>
+<head>		
+<title>UTN Management System</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"">
+</head>
+
+<input type="hidden" name="sessionID" value="${sessionID}">
+
+<frameset rows="70,*" border="0">
+	<frame scrolling="no" noresize="noresize"  src="/header.html" name=header>
+	<frameset cols="200,*" border="0">
+		<frame  noresize="noresize"  src="/cgi-bin/sidemenu.cgi?sessionID=${sessionID}" name=menuframe>
+		<frame noresize="noresize" src="/cgi-bin/frameview.cgi?sessionID=${sessionID}" name="showframe">
+	</frameset>
+</frameset>
+</html>

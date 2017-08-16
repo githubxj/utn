@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>L3 switching configuration</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+var act;
+
+
+function NewL3Intf() 
+{	
+	document.getElementById("action").value = "new_i";
+	document.L3Form.submit();
+}	
+
+function SetL3Intf(id)
+{
+	document.getElementById("action").value = "get_i";
+	document.getElementById("listidx").value = id;
+	document.L3Form.submit();
+}
+
+function DelL3Intf(id)
+{
+	if(getConfirm())
+ 	{
+		document.getElementById("action").value = "del_i";
+		document.getElementById("listidx").value = id;
+		document.L3Form.submit();
+	}
+}
+//Ajax form submit
+function CheckSubmit(submit_action) 
+{	
+		act =	 submit_action;
+		if (act == "port")
+		{
+		}
+		else if (act == "setbase")
+		{
+		}
+		
+		if(getConfirm())
+ 		{
+			if ( xmlHttp )
+			{
+					var sendData;
+					if (act == "port")
+					{
+							sendData = "sessionID=${sessionID}";
+						
+					}
+					else if (act == "setbase")
+					{
+							sendData = "sessionID=${sessionID}";
+					}
+					xmlHttp.open("POST","/cgi-bin/l3config.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+				
+			if ( act == "port")
+			{
+				getObject("portcontents").innerHTML =  xmlHttp.responseText;
+			}
+			else
+			{
+				getObject("basecontents").innerHTML =  xmlHttp.responseText;
+			}
+		}
+	}
+	else
+	{
+		if ( act == "port")
+		{
+			getObject("portcontents").innerHTML =  "数据正在提交中......";
+		}
+		else
+		{
+			getObject("basecontents").innerHTML =  "数据正在提交中......";
+		}
+	}
+}
+                                     
+</script>
+<body>
+<h1>三层交换配置信息</h1>
+<div id="con">
+<form action="/cgi-bin/l3config.cgi" method="Post" name="L3Form" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<input type="hidden" name="listidx" id="listidx">
+
+<div id="basetab" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/l3config.cgi?sessionID=${sessionID}&action=list_i" rel="basecontents" class="selected">接口配置</a></li>
+</ul>
+</div>
+
+<div id="basecontents" class="contentstyle">
+</div>
+
+</form>
+
+<script defer type="text/javascript">
+var basetab = new ddajaxtabs("basetab", "basecontents")	
+basetab.setpersist(true)
+basetab.setselectedClassTarget("linkparent")
+basetab.init()
+</script>
+</div>
+</body>
+</html>

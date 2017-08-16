@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>FSA Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+	
+var xmlHttp = createXMLOBJ();
+
+function getCheckValue(elementID)
+{
+	if(document.getElementById(elementID).checked)      
+	{
+		return("on");
+	}
+	else
+	{
+		return("");
+	}
+}
+
+function FsaSubmit(submit_action) 
+{	
+		act =	 submit_action;
+		if (act == "setnet")
+		{
+			if(isIpAddress(document.getElementById("ip"), "IP地址") == false)
+			{
+				return;
+			}
+			if(isIpAddress(document.getElementById("mask"), "子网掩码") == false)
+			{
+				return;
+			}
+			if(isIpAddress(document.getElementById("gateway"), "缺省网关") == false)
+			{
+				return;
+			}
+		}
+
+		if(getConfirm())
+		{
+				if ( xmlHttp )
+				{
+					var act =	 submit_action;
+					var cardno = getObjectvalue("cardno");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno + "&flag=" + act;
+					
+					if (act == "setnet")
+					{
+						sendData = sendData + "&ip=" + getObjectvalue("ip");
+						sendData = sendData + "&mask=" + getObjectvalue("mask");
+						sendData = sendData + "&gateway=" + getObjectvalue("gateway");
+					}
+	
+					xmlHttp.open("POST","/cgi-bin/fsacard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function Upgrade() 
+{	
+		if(isnotEmpty(document.getElementById("path"), "升级路径") == false)
+		{
+			return;
+		}
+
+		if(getConfirm())
+		{
+				if ( xmlHttp )
+				{
+					var cardno = getObjectvalue("cardno");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno + "&action=upath";
+					
+					sendData = sendData + "&path=" + getObjectvalue("path");
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function SaveVlan() 
+{	
+		if(getConfirm())
+		{
+				if ( xmlHttp )
+				{
+					var cardno = getObjectvalue("cardno");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno + "&action=vlan";
+					
+					sendData = sendData + "&port11=" + getCheckValue("port11") + "&port12=" + getCheckValue("port12") + "&port13=" + getCheckValue("port13")+ "&port14=" + getCheckValue("port14")+ "&port15=" + getCheckValue("port15");
+					sendData = sendData + "&port21=" + getCheckValue("port21") + "&port22=" + getCheckValue("port22") + "&port23=" + getCheckValue("port23")+ "&port24=" + getCheckValue("port24")+ "&port25=" + getCheckValue("port25");
+					sendData = sendData + "&port31=" + getCheckValue("port31") + "&port32=" + getCheckValue("port32") + "&port33=" + getCheckValue("port33")+ "&port34=" + getCheckValue("port34")+ "&port35=" + getCheckValue("port35");
+					sendData = sendData + "&port41=" + getCheckValue("port41") + "&port42=" + getCheckValue("port42") + "&port43=" + getCheckValue("port43")+ "&port44=" + getCheckValue("port44")+ "&port45=" + getCheckValue("port45");
+					sendData = sendData + "&port51=" + getCheckValue("port51") + "&port52=" + getCheckValue("port52") + "&port53=" + getCheckValue("port53")+ "&port54=" + getCheckValue("port54")+ "&port55=" + getCheckValue("port55");
+					
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+								getObject("excontents").innerHTML =  xmlHttp.responseText;
+				}
+		}
+		else
+	 {
+				getObject("excontents").innerHTML =  "数据正在提交中......";
+		}
+}
+
+function CheckSubmit() 
+{
+    if(isEnAndNum(document.getElementById("card_name"), "板卡名称")==false)   
+		{	
+			return;
+		}
+    if(getConfirm()){
+			if(checkLength(document.CardForm.card_name, 16)){
+				document.CardForm.submit();
+			}
+    }
+}
+
+function CardReset() 
+{
+ 
+    if(getConfirm()){
+				document.CardForm.action = "/cgi-bin/chgcard.cgi?action=reset";
+				document.CardForm.submit();
+    }
+}
+
+                                                          
+</script>
+<body>
+<h1>EPN2000卡配置与状态信息</h1>
+
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID" id="sessionID" value="${sessionID}">
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<div id="baseinfo" class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan=4>基本信息</td>
+</tr><tr>  
+	<td width="25%">板卡类型:</td>   
+	<td width="25%">${card_type}</td>
+	<td width="25%">板卡号:</td>   
+	<td width="25%">${card_no}</td>
+</tr><tr>  
+	<td>硬件版本:</td>   
+	<td>${version_hw}</td>
+	<td>固件版本:</td>   
+	<td>${version_fw}</td>
+</tr><tr>  
+	<td>软件版本:</td>   
+	<td>${version_sw}</td>
+	<td>操作系统版本:</td>   
+	<td>${version_os}</td>
+</tr><tr>  
+ 	<td colspan=2 align=left></td>
+ 	<td colspan=2 align=left><input class="btn" type="button" name="Submit" value="重启"  onclick="CardReset();"></td>
+</tr></tbody></table>
+
+</div>
+
+<div id="extabs" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=stat" rel="excontents" class="selected">系统状态</a></li>
+	<li><a href="/cgi-bin/fsacard.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=net" rel="excontents">网络配置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=vlan" rel="excontents">VLAN</a></li>
+	<li><a href="/upgrade_path.html" rel="excontents">软件升级</a></li>
+</ul>
+</div>
+
+<div id="excontents" class="contentstyle">
+</div>
+
+</form>
+
+<script defer type="text/javascript">
+var extab = new ddajaxtabs("extabs", "excontents")	
+extab.setpersist(true)
+extab.setselectedClassTarget("linkparent")
+extab.init()
+</script>
+</div>
+</body>
+</html>

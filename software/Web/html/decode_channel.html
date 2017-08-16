@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>ENCODE Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript">
+
+var xmlHttp = createXMLOBJ();
+var act;
+
+function CheckSubmit(submit_action)
+{
+		act =	 submit_action;
+		if (act == "protocol_set")
+		{
+			if(isIpAddress(document.getElementById("ip"),"地址") == false)
+				return;
+			
+			if(isNumber(getObject("port"), "端口")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("port"),1,65535,"端口")==false)
+			{
+				return;
+			}
+		}
+		 if(getConfirm())
+		 {
+					if ( xmlHttp )
+					{
+							var cardno = getObjectvalue("cardno");
+							var ch_no = getObjectvalue("ch_no");
+							var sendData;
+							if (act == "protocol_set")
+							{
+									sendData = "sessionID=${sessionID}&cardno=" +cardno + "&ch_no=" + getObjectvalue("ch_no");
+									sendData = sendData + "&protocol=" + getObjectvalue("protocol") + "&ip=" + getObjectvalue("ip") + "&port=" + getObjectvalue("port");
+									sendData = sendData + "&action=" + act;
+							}
+							else if (act == "mode_set")
+							{
+								sendData = "sessionID=${sessionID}&cardno=" +cardno + "&ch_no=" + getObjectvalue("ch_no") + "&stream_type=" + getObjectvalue("stream_type") + "&action=" + act;
+							}
+							xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+							xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+							xmlHttp.setRequestHeader ("Content-length", sendData.length);
+							xmlHttp.setRequestHeader ("Connection", "close");
+							xmlHttp.onreadystatechange=showcontents;
+							xmlHttp.send(sendData);
+					}
+			}
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+			if ( (act == "protocol_set") || (act == "mode_set"))
+			{
+				getObject("encodecontents").innerHTML =  xmlHttp.responseText;
+			}
+		}
+	}
+	else
+	{
+		if ( (act == "protocol_set") || (act == "mode_set"))
+		{
+			getObject("encodecontents").innerHTML =  "数据正在提交中......";
+		}
+	}
+}
+
+</script>
+<body>	
+<h1>视频设置</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="POST" name="encodeForm" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="ch_no" id="ch_no" value=${ch_no}>
+<input type="hidden" name="action" id="action">
+
+<div id="encodetabs" class="modernbricksmenu2">
+<ul>
+	<!--
+	<li><a href="/cgi-bin/encode_protocol.html" rel="swcontents" class="selected">单播和组播</a></li>
+	-->
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=protocol" rel="encodecontents" class="selected">单播和组播</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=bitType" rel="encodecontents">码流传输方式设置</a></li>
+</ul>
+</div>
+
+<div id="encodecontents" class="contentstyle">
+</div>
+
+</form>
+<script defer type="text/javascript">
+var encodetab = new ddajaxtabs("encodetabs", "encodecontents")
+encodetab.setpersist(true)
+encodetab.setselectedClassTarget("linkparent") //"link" or "linkparent"
+encodetab.init() 
+</script>
+</div>
+</body>
+</html>

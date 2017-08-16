@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>Node Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+var act;
+
+function getCheckValue(elementID)
+{
+	if(document.getElementById(elementID).checked)      
+	{
+		return("on");
+	}
+	else
+	{
+		return("");
+	}
+}
+
+
+function EponuSubmit(submit_action) 
+{	
+		act =	 submit_action;
+		
+		if(act == "base")
+		{
+				if(checkLength(document.getElementById("onuname"), 32)==false)   
+					return;
+		}
+		else if (act == "net")
+		{
+			if(isIpAddress(document.getElementById("ip"), "IP地址") == false)
+			{
+				return;
+			}
+			if(isIpAddress(document.getElementById("mask"), "子网掩码") == false)
+			{
+				return;
+			}
+			if(isIpAddress(document.getElementById("gateway"), "缺省网关") == false)
+			{
+				return;
+			}
+		}
+		else if (act == "bw")
+		{
+				if(isEnAndNum(document.getElementById("max_bw"), "最大传输带宽")==false)   
+				{	
+					return;
+				}
+		}
+		else if (act == "uart")
+		{
+				if(isInRange(document.getElementById("tcp_port"),1,65535,"TCP 端口")==false)
+				{
+					return;
+				}
+		}
+		else if (act == "io")
+		{
+				if(isIpAddress(document.getElementById("as_ip"), "告警服务器IP地址") == false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("as_port"),1,65535,"告警服务器TCP端口号")==false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("local_port"),1,65535,"告警侦听TCP端口号")==false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("dev_id"),0,1000,"告警设备号")==false)
+				{
+					return;
+				}
+		}
+		else if (act == "up")
+		{
+				if(isnotEmpty(document.getElementById("path"), "升级路径") == false)
+				{
+					return;
+				}
+		}
+	
+ 	if(getConfirm())
+ 	{
+			if ( xmlHttp )
+			{
+					var cardno = getObjectvalue("cardno");
+					var sendData;
+					
+					sendData = "sessionID=${sessionID}&action=" + act + "&cardno=" +cardno + "&pon=" +getObjectvalue("pon") + "&onunode=" +getObjectvalue("onunode");
+					if (act == "base")
+					{
+						sendData = sendData + "&onuname=" + getObjectvalue("onuname");
+					}					
+					else if (act == "net")
+					{
+						sendData = sendData + "&ip=" + getObjectvalue("ip");
+						sendData = sendData + "&mask=" + getObjectvalue("mask");
+						sendData = sendData + "&gateway=" + getObjectvalue("gateway");
+					}
+					else if (act == "uart")
+					{
+						sendData = sendData + "&baudrate=" + getObjectvalue("baudrate") + "&tcp_port=" + getObjectvalue("tcp_port");
+					}
+					else if (act == "io")
+					{
+						sendData = sendData + "&as_ip=" + getObjectvalue("as_ip");
+						sendData = sendData + "&as_port=" + getObjectvalue("as_port");
+						sendData = sendData + "&dev_id=" + getObjectvalue("dev_id");
+						sendData = sendData + "&local_port=" + getObjectvalue("local_port");
+						sendData = sendData + "&alarm_mode=" + getObjectvalue("alarm_mode");
+						sendData = sendData + "&alarm_format=" + getObjectvalue("alarm_format");
+					}
+					else if (act == "ioctrl")
+					{
+						sendData = sendData + "&iono=" + getObjectvalue("iono");
+						sendData = sendData + "&ioctrl_cmd=" + getObjectvalue("ioctrl_cmd");
+					}
+					else if (act == "bw")
+					{
+						sendData = sendData + "&max_bw=" + getObjectvalue("max_bw");
+						sendData = sendData + "&vlan=" + getCheckValue("vlan");
+					}
+					else if (act == "up")
+					{
+						sendData = sendData + "&path=" + getObjectvalue("path");
+					}
+					else if (act == "reset")
+					{
+							sendData = sendData + "&action=" + act ;
+					}
+					else
+					{
+							alert("no request!");
+							return;
+					}
+					xmlHttp.open("POST","/cgi-bin/chgeponu.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function Upgrade()
+{
+	EponuSubmit('up');
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+				getObject("basecontents").innerHTML =  xmlHttp.responseText;
+		}
+	}
+	else
+	{
+			getObject("basecontents").innerHTML =  "数据正在提交中......";
+	}
+}
+                                 
+</script>
+
+
+
+<body>
+<h1>ONU节点配置信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgeponu.cgi" method="Post" name="ONUForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<input type="hidden" name="cardno" id="cardno" value=${cardno}>
+<input type="hidden" name="onunode" id="onunode" value=${onunode}>
+<input type="hidden" name="pon" id="pon" value=${pon}>
+
+<div id="basetab" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/show_eponu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${onunode}&pon=${pon}&flag=base" rel="basecontents" class="selected">基本信息</a></li>
+	<li><a href="/cgi-bin/show_eponu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${onunode}&pon=${pon}&flag=bw" rel="basecontents">带宽配置</a></li>
+	<li><a href="/cgi-bin/show_eponu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${onunode}&pon=${pon}&flag=net" rel="basecontents">网络配置</a></li>
+	<li><a href="/cgi-bin/show_eponu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${onunode}&pon=${pon}&flag=uart" rel="basecontents">UART通道</a></li>
+	<li><a href="/cgi-bin/show_eponu.cgi?sessionID=${sessionID}&cardno=${cardno}&onunode=${onunode}&pon=${pon}&flag=io" rel="basecontents">I/O 开关量</a></li>
+	<li><a href="/upgrade_path.html" rel="basecontents">软件升级</a></li>
+</ul>
+</div>
+
+<div id="basecontents" class="contentstyle">
+</div>
+
+</form>
+
+<script defer type="text/javascript">
+var basetab = new ddajaxtabs("basetab", "basecontents")	
+basetab.setpersist(true)
+basetab.setselectedClassTarget("linkparent")
+basetab.init()
+	
+</script>
+</div>
+</body>
+</html>

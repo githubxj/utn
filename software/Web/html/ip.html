@@ -1,0 +1,65 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>change ip</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function relogin() 
+{
+   
+   
+	   		
+	   		var ipaddress = document.getElementById("ipchg").value ;
+	   		window.parent.location = "http://"+ipaddress;
+		
+   
+}
+
+
+
+
+
+                                                                  
+</script>
+<body >
+<h1>操作成功</h1>
+<form  method="Post" name="ipForm" >
+<input type="hidden" name="sessionID">
+<input type="hidden" name="ipchg" id="ipchg" value=${ipchg}>
+<div id="remain" style="width:100%; text-align:center;padding-top:100px;padding-bottom:100px;" >系统将在<strong id="remainsec">xx</strong>秒后自动跳转，如果没有自动跳转请用单击登陆，新IP为：<strong id="ipaddr"></strong></div>
+</form>
+<script type="text/javascript">
+var speed = 1000;
+var wait = 20;
+var ip = document.getElementById("ipchg").value;
+function reboot()
+{
+	if (wait == 0)
+	{
+		
+		relogin();
+		
+	}
+	else
+		{
+			
+			document.getElementById("remainsec").innerHTML = wait;
+			var str1="<a href=\"";
+			str1+="http://";
+			str1+=ip;
+			str1+="\" target=\"";
+			str1+="_blank\">登陆</a>";
+			
+			document.getElementById("ipaddr").innerHTML = str1;
+			wait--;
+			window.setTimeout("reboot()" , speed);
+			}
+	}
+reboot();
+</script>
+</body>
+</html>

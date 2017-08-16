@@ -1,0 +1,83 @@
+﻿<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="5">
+<title>port performance Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function NttPerfReset() 
+{
+    
+   			document.getElementById("action").value = 'reset';
+			document.nttperfForm.submit();
+		
+    
+}
+                                                                  
+</script>
+<body>
+<h1>${head_name}流量统计信息</h1>
+<form action="/cgi-bin/nttperfview.cgi" method="Post" name="nttperfForm" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${cardno}>
+<input type="hidden" name="onuno" id="onuno" value=${onuno}>
+<input type="hidden" name="portno" id="portno" value=${portno}>
+<input type="hidden" name="action" id="action">
+<table width="80%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan=4>流量信息</td>
+</tr><tr> 
+	<td width="30%">端口号</td>  
+	<td width="35%">接收字节数</td>   
+	<td width="35%">发送字节数</td>   
+</tr><tr>
+	<td width="30%">port1</td>
+	<td width="35%">${port8_recv}</td>
+	<td width="35%">${port8_send}</td>
+</tr><tr>
+	<td width="30%">port2</td>
+	<td width="35%">${port7_recv}</td>
+	<td width="35%">${port7_send}</td>
+</tr><tr>
+	<td width="30%">port3</td>
+	<td width="35%">${port6_recv}</td>
+	<td width="35%">${port6_send}</td>
+</tr><tr>
+	<td width="30%">port4</td>
+	<td width="35%">${port5_recv}</td>
+	<td width="35%">${port5_send}</td>
+</tr><tr>
+	<td width="30%">port5</td>
+	<td width="35%">${port4_recv}</td>
+	<td width="35%">${port4_send}</td>
+</tr><tr>
+	<td width="30%">port6</td>
+	<td width="35%">${port3_recv}</td>
+	<td width="35%">${port3_send}</td>
+</tr><tr>
+	<td width="30%">port7</td>
+	<td width="35%">${port2_recv}</td>
+	<td width="35%">${port2_send}</td>
+</tr><tr>
+	<td width="30%">port8</td>
+	<td width="35%">${port1_recv}</td>
+	<td width="35%">${port1_send}</td>
+</tr>
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td ><input class="btn" type="button" name="Submit" value="清零" onclick="NttPerfReset();"></td>
+</tr>
+</table>
+</td>
+</tbody></table>
+
+</form>
+</body>
+</html>
+

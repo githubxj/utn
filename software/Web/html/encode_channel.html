@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>ENCODE Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript">
+
+var xmlHttp = createXMLOBJ();
+var act;
+
+function CheckSubmit(submit_action)
+{
+		act =	 submit_action;
+		if (act == "protocol_set")
+		{
+			if(isIpAddress(document.getElementById("ip"),"地址") == false)
+				return;
+			
+			if(isNumber(getObject("port"), "端口")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("port"),1,65535,"端口")==false)
+			{
+				return;
+			}
+		}
+		else if (act == "param_set")
+		{
+			if(isNumber(getObject("vid_bit_rate"), "视频压缩码率")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("vid_bit_rate"),64000,16000000,"视频压缩码率")==false)
+			{
+				return;
+			}
+			
+			if(isNumber(getObject("frm_rate"), "帧率")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("frm_rate"),1,30,"帧率")==false)
+			{
+				return;
+			}
+		}
+    else if (act == "osd_set")
+		{
+			if(isEnAndNum(document.getElementById("channel_name"), "通道名称")==false)   
+				{	
+					return;
+				}
+				if(checkLength(document.getElementById("channel_name"), 16)==false)   
+					return;
+		}
+		else if (act == "picture_set")
+		{
+			if(isNumber(getObject("bright"), "图像亮度")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("bright"),0,255,"图像亮度")==false)
+			{
+				return;
+			}
+			
+			if(isNumber(getObject("contrast"), "图像对比度")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("contrast"),0,255,"图像对比度")==false)
+			{
+				return;
+			}
+			
+			if(isNumber(getObject("chroma"), "图像色度")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("chroma"),0,255,"图像色度")==false)
+			{
+				return;
+			}
+			
+			if(isNumber(getObject("saturation"), "图像饱和度")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("saturation"),0,255,"图像饱和度")==false)
+			{
+				return;
+			}
+		}
+		
+		 if(getConfirm())
+		 {
+					if ( xmlHttp )
+					{
+							var cardno = getObjectvalue("cardno");
+							var ch_no = getObjectvalue("ch_no");
+							var sendData;
+							sendData = "sessionID=${sessionID}&cardno=" +cardno + "&ch_no=" + ch_no;
+							
+							if (act == "protocol_set")
+							{
+									sendData = sendData + "&protocol=" + getObjectvalue("protocol") + "&ip=" + getObjectvalue("ip") + "&port=" + getObjectvalue("port");
+									sendData = sendData + "&action=" + act;
+							}
+							else if (act == "param_set")
+							{
+								sendData = sendData + "&vid_bit_rate=" + getObjectvalue("vid_bit_rate") + "&vid_bit_type=" + getObjectvalue("vid_bit_type") + "&vid_vbr=" + getObjectvalue("vid_vbr");
+								sendData = sendData + "&resolving=" + getObjectvalue("resolving") + "&frm_rate=" + getObjectvalue("frm_rate") + "&gop=" + getObjectvalue("gop") + "&action=" + act;
+								//alert(sendData);
+							}
+							else if (act == "osd_set")
+							{
+								sendData = sendData + "&channel_name=" + getObjectvalue("channel_name") + "&osd_color=" + getObjectvalue("osd_color") + "&location=" + getObjectvalue("location");
+								sendData = sendData + "&show_time=" + getObjectvalue("show_time") + "&action=" + act;
+							}
+							else if (act == "picture_set")
+							{
+									sendData = sendData + "&bright=" + getObjectvalue("bright") + "&contrast=" + getObjectvalue("contrast") + "&chroma=" + getObjectvalue("chroma") + "&saturation=" + getObjectvalue("saturation");
+									sendData = sendData + "&action=" + act;
+							}
+							else if (act == "mode_set")
+							{
+									sendData = sendData + "&stream_type=" + getObjectvalue("stream_type") + "&action=" + act;
+							}
+							xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+							xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+							xmlHttp.setRequestHeader ("Content-length", sendData.length);
+							xmlHttp.setRequestHeader ("Connection", "close");
+							xmlHttp.onreadystatechange=showcontents;
+							xmlHttp.send(sendData);
+					}
+			}
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+			if ( (act == "protocol_set") || (act == "param_set") || (act == "osd_set") || (act == "picture_set") || (act == "mode_set"))
+			{
+				getObject("encodecontents").innerHTML =  xmlHttp.responseText;
+			}
+		}
+	}
+	else
+	{
+		if ( (act == "protocol_set") || (act == "param_set") || (act == "osd_set") || (act == "picture_set") || (act == "mode_set"))
+		{
+			getObject("encodecontents").innerHTML =  "数据正在提交中......";
+		}
+	}
+}
+
+ function onloadcbr()
+ {
+	var cbr_value =document.getElementById("vid_bit_type").value;
+ 	if (cbr_value == "0") {
+ 		document.getElementById("vbr_div").style.visibility = "hidden";
+ 		document.getElementById("vbrvalue_div").style.visibility = "hidden";
+ 	}
+ 	else
+ 	{
+ 		document.getElementById("vbr_div").style.visibility = "visible";
+ 		document.getElementById("vbrvalue_div").style.visibility = "visible";
+ 	}
+ }              
+
+</script>
+<body>	
+<h1>视频设置</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="POST" name="encodeForm" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="ch_no" id="ch_no" value=${ch_no}>
+<input type="hidden" name="action" id="action">
+
+<div id="encodetabs" class="modernbricksmenu2">
+<ul>
+	<!--
+	<li><a href="/cgi-bin/encode_protocol.html" rel="swcontents" class="selected">单播和组播</a></li>
+	-->
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=protocol" rel="encodecontents" class="selected">单播和组播</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=encode_video_param" rel="encodecontents" >视频参数设置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=osd" rel="encodecontents">OSD设置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=picture" rel="encodecontents">图像设置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&ch_no=${ch_no}&flag=bitType" rel="encodecontents">码流传输方式设置</a></li>
+</ul>
+</div>
+
+<div id="encodecontents" class="contentstyle">
+</div>
+
+</form>
+<script defer type="text/javascript">
+var encodetab = new ddajaxtabs("encodetabs", "encodecontents")
+encodetab.setpersist(true)
+encodetab.setselectedClassTarget("linkparent") //"link" or "linkparent"
+encodetab.init() 
+</script>
+</div>
+</body>
+</html>

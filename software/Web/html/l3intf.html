@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>L3 Interface Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function CheckSubmit(submitaction) 
+{
+    if(isNumber(document.getElementById("vlan"), "VLAN")==false)   
+		{	
+			return;
+		}
+    if(isIpAddress(document.getElementById("ip"), "接口IP地址")==false)   
+		{	
+			return;
+		}
+    if(isIpAddress(document.getElementById("mask"), "接口子网掩码")==false)   
+		{	
+			return;
+		}
+    
+    if(getConfirm()){
+
+				document.L3Form.submit();
+			
+    }
+}
+
+                                                               
+</script>
+<body>
+<h1>三层交换接口信息</h1>
+<div id="con">
+<form action="/cgi-bin/l3config.cgi" method="Post" name="L3Form" >
+<input type="hidden" name="sessionID" id="sessionID" value={sessionID}>
+<input type="hidden" name="action" id="action" value="save_i">
+<input type="hidden" name="intf_id" id="intf_id" value="${intf_id}">
+
+<div class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+	
+<tr>
+	<td class="bar" colspan=2></td>
+</tr>
+
+<tr>  
+	<td width="20%">接口号</td>   
+	<td width="80%">${intf_id}</td>
+</tr>
+<tr>  
+	<td>VLAN</td>   
+	<td><input type='text' name='vlan' id='vlan' value='${vlan}' size='16'></td>
+</tr>
+<tr>  
+	<td>接口IP地址</td>   
+	<td><input type='text' name='ip' id='ip' value='${ip}' size='16'></td>
+</tr>
+<tr>  
+	<td>接口子网掩码</td>   
+	<td><input type='text' name='mask' id='mask' value='${mask}' size='16'></td>
+</tr>
+
+<tr>  
+ 	<td  colspan=2 align=left><input class="btn" type="button" name="Submit" value="保存"  onclick="CheckSubmit('save');"></td>
+</tr> </tbody>
+</div>
+</form>
+</div>
+</body>
+</html>

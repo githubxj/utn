@@ -1,0 +1,73 @@
+.gmenu{
+margin:  5px;
+padding: 0;
+width: 190px; /*width of menu*/
+border: 1px solid #bdcddc;
+}
+
+.gmenu img.refresh{
+border:0;
+margin:0;
+margin-left: 85px;
+padding:0;
+cursor:hand;
+
+}
+.gmenu a.menuitem{
+background: white url(/images/menu_bg.gif) repeat-x bottom left;
+font-size: 14px;
+font-weight: bold;
+color: #222;
+display: block;
+position: relative; /*To help in the anchoring of the ".statusicon" icon image*/
+width: auto;
+padding: 5px;
+text-decoration: none;
+text-shadow: 1px 1px #eee;
+box-shadow: inset rgba(255,255,255,0.3) 0 2px 2px, inset rgba(0,0,0,0.4) 0 -2px 2px;
+}
+
+
+.gmenu a.menuitem:visited, .gmenu .menuitem:active{
+color: white;
+}
+
+.gmenu a.menuitem .statusicon{ /*CSS for icon image that gets dynamically added to headers*/
+position: absolute;
+top: 5px;
+right: 5px;
+border: none;
+}
+
+.gmenu a.menuitem:hover{
+background: #aad;
+color: #228;
+}
+
+.gmenu div.submenu{ /*DIV that contains each sub menu*/
+background: #e9e9e9;
+}
+
+.gmenu div.submenu ul{ /*UL of each sub menu*/
+list-style-type: none;
+margin: 0;
+padding: 0;
+}
+
+.gmenu div.submenu ul li{
+border-bottom: 1px solid white;
+}
+
+.gmenu div.submenu ul li a{
+display: block;
+font-size: 12px;
+color: #444;
+text-decoration: none;
+padding: 4px 4px;
+padding-left: 10px;
+}
+
+.gmenu div.submenu ul li a:hover{
+background: #cce;
+color: #44c;
+}

@@ -1,0 +1,107 @@
+<HTML>
+<HEAD>
+<TITLE> Topology NE view</TITLE>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link href="/css/topo.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</HEAD>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+
+function check_refresh() 
+{	
+			if ( xmlHttp )
+			{
+					var sendData = "sessionID=${sessionID}&type=topo&cardno=${cardno}";
+					xmlHttp.open("POST","/cgi-bin/refrchk.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=process_rsp;
+					xmlHttp.send(sendData);		
+			}
+}
+
+function process_rsp()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						var ret = xmlHttp.responseText;
+						if(ret == 0)
+						{
+							setTimeout(check_refresh,1000);	
+						}
+						else
+						{
+							location.reload();	
+						}					 
+				}
+		
+		}
+}
+
+</script>
+
+<BODY onload="setTimeout(check_refresh,1000);" >
+<h1>${cardno}号${fsa_name}卡 远端节点网络拓扑图</h1>
+<br>
+<table border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+			<td><div id="topleft"></div></td>
+			<td>
+			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						${top_nodeid_list}
+					</tr>
+					<tr>
+						${top_node_list}
+					</tr>
+			</table>
+			</td>
+ 			<td><div id="topright"></div></td>
+  	</tr>
+    
+    <tr>
+    	<td>    	
+			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+				${olt_content} 
+				${left_node_list}
+			</table>
+  		</td>
+  		
+    	<td>    	
+  		</td>
+  		
+    	<td>    	
+			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+				${right_node_list}
+			</table>
+  		</td>
+  	</tr>
+
+    <tr>
+			<td><div id="bottomleft"></div></td>
+			<td valign="top">
+			<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						${bottom_node_list}
+					</tr>
+					<tr>
+						${bottom_nodeid_list}
+					</tr>
+			</table>
+			</td>
+ 			<td><div id="bottomright"></div></td>
+  	</tr>
+
+
+</table>
+
+</BODY>
+
+
+</HTML>

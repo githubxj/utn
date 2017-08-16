@@ -1,0 +1,77 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>system time and date</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+
+function CheckSubmit() 
+{
+ 
+	if(isDate(document.getElementById("year"), 
+						document.getElementById("mon"),
+						document.getElementById("day"),
+						document.getElementById("hour"),
+						document.getElementById("min"),
+						document.getElementById("sec"))==false)
+    	return;	
+
+		document.getElementById("action").value = "set";
+		document.Form.submit();		
+
+}
+
+function set_local_date()
+{
+	var now = new Date();
+	document.getElementById("year").value = now.getFullYear();
+	document.getElementById("mon").value = now.getMonth()+1;
+	document.getElementById("day").value = now.getDate() ;
+	document.getElementById("hour").value = now.getHours();
+	document.getElementById("min").value = now.getMinutes();
+	document.getElementById("sec").value = now.getSeconds();
+}
+  
+                                                                  
+</script>
+
+<body onload="set_local_date();">
+<h1>日期与时间设置</h1>
+<div id="con">
+
+<div id="baseinfo" class="basecontent">
+
+<form action="/cgi-bin/sysdate.cgi" method="post" name="Form">
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<table width="600" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td width="25%">系统日期与时间:</td>
+	<td width="40%"> ${cur_year}年${cur_mon}月${cur_day}日</td>
+	<td width="35%"> ${cur_hour}:${cur_min}:${cur_sec}</td>
+</tr><tr>
+	<td>新日期与时间:</td>
+	<td><input type="text" name="year" id="year" maxlength="4" size="3" style="text-align:right;width=40px;"> 年
+									<input type="text" name="mon" id="mon" maxlength="2" size="1"style="text-align:right;width=25px;">月
+									<input type="text" name="day" id="day" maxlength="2" size="1" style="text-align:right;width=25px;">日
+	</td>
+	<td><input type="text" name="hour" id="hour" maxlength="2" size="1" style="text-align:right;width=25px;">:
+									<input type="text" name="min" id="min" maxlength="2" size="1" style="text-align:right;width=25px;">:
+									<input type="text" name="sec" id="sec" maxlength="2" size="1" style="text-align:right;width=25px;"></td>
+</tr><tr>  
+ 	<td  colspan=3 align=left><input class="btn" type="submit" name="Submit" value="读取" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmit();" > </td>
+</tr> 
+
+
+
+</tbody></table>
+</form>
+<br>
+<br>
+</div></div>
+</body>
+</html>

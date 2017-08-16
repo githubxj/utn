@@ -1,0 +1,65 @@
+<table width="100%%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+
+<tr>  
+	<td class="bar" colspan=4></td>
+</tr	
+
+<tr>  
+	<td width="25%">SFP光口状态-N:</td>   
+	<td width="25%">${sfp_n_state}</td>
+	<td width="25%">SFP光口状态-F:</td>   
+	<td width="25%">${sfp_f_state}</td>
+</tr>
+
+<tr>  
+	<td>光网络组网状态:</td>   
+	<td>${network_state}</td>
+	<td>统计数据类型:</td>   
+	<td>${statistic_type}</td>
+</tr>
+
+<tr>  
+	<td>GE-1 端口管理状态:</td>   
+	<td>${ge1_admin_state}</td>
+	<td>GE-1 端口状态:</td>   
+	<td>${ge1_port_state}</td>
+</tr>
+
+<tr>  
+	<td>GE-2 端口管理状态:</td>   
+	<td>${ge2_admin_state}</td>
+	<td>GE-2 端口状态:</td>   
+	<td>${ge2_port_state}</td>
+</tr>
+
+<tr>
+	<td>广播风暴控制:</td>
+	<td>${storm_ctrl}</td>
+	<td><div id="storm_div" style="visibility:hidden;">广播风暴阈值(0~63):</div></td>
+	<td><div id="stormvalue_div" style="visibility:hidden;"><input type="text" name="storm_threshold" id="storm_threshold" size="16" value="${storm_threshold}" >个</div></td>
+</tr>
+
+<tr>
+	<td>IGMP 探测:</td>
+	<td>${igmp_snooping}</td>
+	<td></td>
+	<td></td>
+</tr>
+<tr>
+	<td>时钟延迟:</td>
+	<td>
+		<input type='checkbox' name='cdg1' id='cdg1' ${cdg1} >端口1～8 
+	</td><td>
+		<input type='checkbox' name='cdg2' id='cdg2' ${cdg2} >端口9～16
+	</td><td>
+		<input type='checkbox' name='cdg3' id='cdg3' ${cdg3} >端口17～24 
+	</td></tr>
+
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="FsaSubmit('setbase');"></td>
+</tr>
+
+ 
+
+</tbody></table>

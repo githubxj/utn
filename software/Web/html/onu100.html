@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>MAU100 Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+
+</head>
+
+<script type="text/javascript">
+
+function CheckSubmit(submit_action) 
+{	
+    if(isEnAndNum(document.getElementById("onu_name"), "节点名称")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("onu_name"), 16)==false)   
+			return;
+    document.getElementById("action").value = submit_action;
+ if(getConfirm())
+ {
+			document.onuForm.submit();
+	}
+}
+
+                                                                 
+</script>
+<body>
+<h1>MAU100配置信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="onuForm" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="action" id="action">
+<input type="hidden" name="node_id" id="node_id" value=${node_id}>
+<div class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4>配置信息</td>
+</tr>
+
+<tr>  
+	<td width="25%">节点号:</td>   
+	<td width="25%">${node_id}</td>
+	<td width="25%">节点名称:</td>   
+	<td width="25%"><input type="text" name="onu_name" id="onu_name" value="${onu_name}" size="16" onKeyDown="return onlyEngAndNum();"></td>
+</tr>
+<tr>  
+	<td>传输模式：</td>   
+	<td>${transmit_mode}</td>
+	<td>TX-1 电口状态：</td>   
+	<td>${tx1_link}</td>
+</tr>
+
+<tr>  
+	<td>TX-1 当前工作模式：</td>   
+	<td>${cur_workmode_onu1}</td>
+	<td>TX-1 工作模式：</td>   
+	<td>${conf_workmode_onu1}</td>
+</tr>
+<tr>  
+	<td>TX-2 当前工作模式：</td>   
+	<td>${cur_workmode_onu2}</td>
+	<td>TX-2 电口状态：</td>   
+	<td>${tx2_link}</td>
+</tr>
+
+<tr>  
+	<td>TX-2 工作模式：</td>   
+	<td>${conf_workmode_onu2}</td>
+	<td></td>
+	<td></td>
+</tr>
+
+<tr> 
+	<td colspan=4 >
+		<table width="100%" class="field" border="0" cellspacing="0" cellpadding="0" align="center" > 
+ 		<tr>
+ 			<td align="left"><input class="btn" type="button" name="Submit" value="设置"  onclick="CheckSubmit('set_rmt');"></td>
+ 			<td align="center"><input class="btn" type="button" name="Submit" value="卡复位" onclick="CheckSubmit('reset_rmt');"></td>
+ 			<td align="right" ><input class="btn" type="button" name="Submit" value="恢复出厂设置" onclick="CheckSubmit('setdefault_rmt');"></td>
+		</tr></table>
+	</td>
+</tr></tbody>
+</div>
+</form>
+</div>
+</body>
+</html>

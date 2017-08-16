@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html >
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>Encode card mode</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" />
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+
+<script type="text/javascript"> 
+
+ var xmlHttp = createXMLOBJ();
+function CheckSubmit(submit_action) 
+{	
+ if(getConfirm())
+ {
+			if ( xmlHttp )
+			{
+					var act =	 submit_action;
+					var cardno = getObjectvalue("cardno");
+					var compress_type = getObjectvalue("compress_type");
+					var sendData = "sessionID=${sessionID}&action=" + act + "&cardno=" +cardno + "&compress_type=" +compress_type + "&stream_type=" + getObjectvalue("stream_type");
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4){
+				if (xmlHttp.status == 200){
+						getObject("channeldivcontainer").innerHTML =  xmlHttp.responseText;
+					}else
+						{
+							alert('there was a problem with the request. ');	
+						}
+			
+			}
+			else {
+				
+				getObject("channeldivcontainer").innerHTML =  "数据正在提交中......";
+				}
+	
+	
+}
+
+
+</script>
+</head>
+
+<body >
+<h1>编解码类型</h1>
+<div id="con">
+	
+<form>
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value="${cardno}">
+<input type="hidden" name="action" id="action">
+<div id="channeltabs" class="modernbricksmenu2">
+<ul>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=ajaxpatten&chno=0" rel="channeldivcontainer" class="selected">Channel 1</a></li>
+<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=ajaxpatten&chno=1" rel="channeldivcontainer" >Channel 2</a></li>
+</ul>
+</div>
+<div id="channeldivcontainer" class="contentstyle">
+</div>
+</form>
+
+
+<script type="text/javascript">
+var patten = new ddajaxtabs("channeltabs", "channeldivcontainer")
+patten.setpersist(true)
+patten.setselectedClassTarget("linkparent") //"link" or "linkparent"
+patten.init()
+
+</script>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>DAT1000 Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script type="text/javascript">
+	
+var xmlHttp = createXMLOBJ();
+function FsaSubmit(submit_action) 
+{	
+		act =	 submit_action;
+				
+		if (act == "setnet")
+		{
+			if(isIpAddress(document.getElementById("ip"), "IP地址") == false)
+			{
+				return;
+			}
+			if(isIpAddress(document.getElementById("mask"), "子网掩码") == false)
+			{
+				return;
+			}
+			if(isIpAddress(document.getElementById("gateway"), "缺省网关") == false)
+			{
+				return;
+			}
+		}
+		if (act == "setls")
+		{
+			if(isInRange(document.getElementById("tcp_port"),1000,65000,"TCP连接侦听起始端口")==false)
+			{
+				return;
+			}
+			if(isInRange(document.getElementById("tcp_port_step"),25,5000,"第二通道端口号偏移")==false)
+			{
+				return;
+			}
+			if( getObjectvalue("as_ip") != "")
+			{
+				if(isIpAddress(document.getElementById("as_ip"), "告警服务器IP地址") == false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("as_port"),1,65535,"告警服务器TCP端口号")==false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("dev_id"),0,1000,"告警设备号")==false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("dev_id_step"),24,500,"每组告警设备号偏移")==false)
+				{
+					return;
+				}
+			}
+			if( getObjectvalue("as_ip2") != "")
+			{
+				if(isIpAddress(document.getElementById("as_ip2"), "告警服务器IP地址") == false)
+				{
+					return;
+				}
+				if(isInRange(document.getElementById("as_port2"),1,65535,"告警服务器TCP端口号")==false)
+				{
+					return;
+				}
+			}
+		}
+
+		if(act == "stat" || getConfirm())
+		{
+				if ( xmlHttp )
+				{
+					var act =	 submit_action;
+					var cardno = getObjectvalue("cardno");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno + "&flag=" + act;
+					
+					if (act == "setbase")
+					{
+						sendData = sendData + "&card_name=" + getObjectvalue("card_name") + "&admin_state=" + getObjectvalue("admin_state");
+						sendData = sendData + "&statistic_type=" + getObjectvalue("statistic_type");
+						sendData = sendData + "&igmp_snooping=" + getObjectvalue("igmp_snooping");
+						sendData = sendData + "&storm_ctrl=" + getObjectvalue("storm_ctrl");
+						sendData = sendData + "&storm_threshold=" + getObjectvalue("storm_threshold");
+						sendData = sendData + "&ge1_admin_state=" + getObjectvalue("ge1_admin_state");
+						sendData = sendData + "&ge2_admin_state=" + getObjectvalue("ge2_admin_state");
+					}
+		
+					if (act == "setnet")
+					{
+						sendData = sendData + "&ip=" + getObjectvalue("ip");
+						sendData = sendData + "&mask=" + getObjectvalue("mask");
+						sendData = sendData + "&gateway=" + getObjectvalue("gateway");
+					}
+					
+					if (act == "setls")
+					{
+						sendData = sendData + "&tcp_port=" + getObjectvalue("tcp_port");
+						sendData = sendData + "&tcp_port_step=" + getObjectvalue("tcp_port_step");
+						sendData = sendData + "&as_ip=" + getObjectvalue("as_ip");
+						sendData = sendData + "&as_port=" + getObjectvalue("as_port");
+						sendData = sendData + "&dev_id=" + getObjectvalue("dev_id");
+						sendData = sendData + "&dev_id_step=" + getObjectvalue("dev_id_step");
+						sendData = sendData + "&alarm_mode=" + getObjectvalue("alarm_mode");
+						sendData = sendData + "&alarm_format=" + getObjectvalue("alarm_format");
+						if(document.getElementById("amask1").checked == true)
+						{
+							sendData = sendData + "&amask1=on";
+						}
+						if(document.getElementById("amask2").checked == true)
+						{
+							sendData = sendData + "&amask2=on";
+						}
+						if(document.getElementById("amask3").checked == true)
+						{
+							sendData = sendData + "&amask3=on";
+						}
+						if(document.getElementById("amask4").checked == true)
+						{
+							sendData = sendData + "&amask4=on";
+						}
+						if(document.getElementById("amask5").checked == true)
+						{
+							sendData = sendData + "&amask5=on";
+						}
+						if(document.getElementById("amask6").checked == true)
+						{
+							sendData = sendData + "&amask6=on";
+						}
+						sendData = sendData + "&as_ip2=" + getObjectvalue("as_ip2");
+						sendData = sendData + "&alarm_format2=" + getObjectvalue("alarm_format2");
+						sendData = sendData + "&as_port2=" + getObjectvalue("as_port2");
+					}
+					if (act == "stat")
+					{
+							sendData = sendData + "&type=dau";
+					}
+					xmlHttp.open("POST","/cgi-bin/fsacard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						
+								getObject("excontents").innerHTML =  xmlHttp.responseText;
+						
+						
+				}
+			
+			}
+			else
+			 {
+						
+								getObject("excontents").innerHTML =  "数据正在提交中......";
+						
+				}
+	
+	
+}
+
+function CheckSubmit() 
+{
+    if(isEnAndNum(document.getElementById("card_name"), "板卡名称")==false)   
+		{	
+			return;
+		}
+    if(getConfirm()){
+			if(checkLength(document.CardForm.card_name, 16)){
+				document.CardForm.submit();
+			}
+    }
+}
+function CardReset() 
+{
+    
+    if(getConfirm()){
+				document.CardForm.action = "/cgi-bin/chgcard.cgi?action=reset";
+				document.CardForm.submit();
+    }
+}
+                                                            
+</script>
+<body>
+<h1>DAT1000卡配置与状态信息</h1>
+
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID" id="sessionID" value="${sessionID}">
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<div id="baseinfo" class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td colspan=4>
+		<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center">
+			<tr>
+			<td align="left" ></td>
+			<td align="right" > <a class="pagelink" href="/cgi-bin/topoview.cgi?sessionID=${sessionID}&cardno=${card_no}">光纤接入单元组网图</a></td>
+			</tr>
+		</table>
+	</td>	
+</tr>
+
+<tr>  
+	<td class="bar" colspan=4>基本信息</td>
+</tr><tr>  
+	<td width="25%">板卡类型:</td>   
+	<td width="25%">${card_type}</td>
+	<td width="25%">板卡号:</td>   
+	<td width="25%">${card_no}</td>
+</tr><tr>  
+	<td>硬件版本:</td>   
+	<td>${version_hw}</td>
+	<td>固件版本:</td>   
+	<td>${version_fw}</td>
+</tr><tr>  
+	<td>软件版本:</td>   
+	<td>${version_sw}</td>
+	<td>操作系统版本:</td>   
+	<td>${version_os}</td>
+</tr><tr>  
+	<td>板卡名称:</td>   
+	<td><input type="text" name="card_name" id="card_name" size="16" value="${card_name}" ></td>
+	<td>管理状态:</td>   
+	<td>${admin_state}</td>
+</tr><tr>  
+ 	<td colspan=2 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit();"></td>
+ 	<td colspan=2 align=left><input class="btn" type="button" name="Submit" value="重启"  onclick="CardReset();"></td>
+</tr></tbody></table>
+
+</div>
+
+<div id="extabs" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/fsacard.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=dat" rel="excontents" class="selected">状态信息</a></li>
+	<li><a href="/cgi-bin/fsacard.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=net" rel="excontents">网络配置</a></li>
+	<li><a href="/cgi-bin/fsacard.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=ls" rel="excontents">低速数据配置</a></li>
+	<li><a href="/cgi-bin/fsacard.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=stat&type=dau" rel="excontents">低速数据状态</a></li>
+</ul>
+</div>
+
+<div id="excontents" class="contentstyle">
+</div>
+
+</form>
+
+<script defer type="text/javascript">
+var extab = new ddajaxtabs("extabs", "excontents")	
+extab.setpersist(true)
+extab.setselectedClassTarget("linkparent")
+extab.init()
+</script>
+</div>
+</body>
+</html>

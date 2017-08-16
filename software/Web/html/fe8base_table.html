@@ -1,0 +1,29 @@
+﻿<table width="100%%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4"></td>
+</tr><tr>  
+	<td width="25%">板卡类型:</td>   
+	<td width="25%">${card_type}</td>
+	<td width="25%">板卡号:</td>   
+	<td width="25%">${card_no}</td>
+</tr><tr>  
+	<td>硬件版本:</td>   
+	<td>${version_hw}</td>
+	<td>固件版本:</td> 
+	<td>${version_fw}</td>
+</tr><tr>  
+	<td>软件版本:</td>   
+	<td>${version_sw}</td>
+	<td>操作系统版本:</td>   
+	<td>${version_os}</td>
+</tr><tr>  
+	<td>板卡名称:</td>   
+	<td><input type="text" name="card_name" id="card_name" size="16" value="${card_name}" ></td>
+	<td>管理状态:</td>   
+	<td>${admin_state}</td>
+</tr>
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('base');"></td>
+</tr> 
+</tbody></table>

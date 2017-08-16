@@ -1,0 +1,19 @@
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4></td>
+</tr><tr>  
+	<td width="25%">最大传输带宽：</td> 
+	<td width="25%"><input type="text" name="max_bw" id="max_bw"size="16" value="${max_bw}" >Kbps</td>  
+	<td width="25%"></td>  
+	<td width="25%"></td>
+</tr><tr>
+	<td>端口隔离：</td>
+	<td><input type="CHECKBOX" name="vlan" id="vlan" ${vlan_checked}>启用</input></td>
+	<td></td>  
+	<td></td>
+</tr>
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="EponuSubmit('bw');"></td>
+</tr> 
+</tbody></table>

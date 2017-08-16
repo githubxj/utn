@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<TITLE>Side Menu</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+<LINK href="/css/dtree.css" type=text/css rel=StyleSheet>
+<LINK href="/css/gmenu.css" type=text/css rel=StyleSheet>
+<LINK href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/dtree.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+
+<script type="text/javascript">
+var xmlHttp = createXMLOBJ();
+
+function check_refresh() 
+{	
+			if ( xmlHttp )
+			{
+					var sendData = "sessionID=${sessionID}&type=tree";
+					xmlHttp.open("POST","/cgi-bin/refrchk.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=process_rsp;
+					xmlHttp.send(sendData);		
+			}
+}
+
+function process_rsp()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						var ret = xmlHttp.responseText;
+						if(ret == 0)
+						{
+							setTimeout(check_refresh,1000);	
+						}
+						else
+						{
+							location.reload();	
+						}					 
+				}
+		
+		}
+}
+
+</script>
+</HEAD>
+<BODY class="sidemenu" onload="setTimeout(check_refresh,1000);">
+
+<div class="gmenu">
+	
+<a class="menuitem submenuheader">${_L_mdevice}  &nbsp;<img class="refresh" title="刷新" src="/images/refresh.gif" onclick="location.reload(true);"></a>
+<div class="submenu">
+
+</div>
+<SCRIPT type=text/javascript>
+
+${device_menu}
+
+</SCRIPT>
+<a class="menuitem submenuheader">系统配置</a>
+<div class="submenu">
+	<ul>
+	<li><a href="/cgi-bin/upgrade.cgi?sessionID=${sessionID}" target="showframe">系统软件升级</a></li>
+	<li><a href="/cgi-bin/chgpwd.cgi?sessionID=${sessionID}" target="showframe">密码修改</a></li>
+	<li><a href="/cgi-bin/netconfig.cgi?sessionID=${sessionID}" target="showframe">网络配置</a></li>
+	<li><a href="/cgi-bin/reboot.cgi?sessionID=${sessionID}" target="showframe">系统重启</a></li>
+	<li><a href="/cgi-bin/snmpconfig.cgi?sessionID=${sessionID}" target="showframe">SNMP配置修改</a></li>
+	<li><a href="/cgi-bin/sysdate.cgi?sessionID=${sessionID}" target="showframe">日期与时间</a></li>
+	<li><a href="/cgi-bin/onuid.cgi?sessionID=${sessionID}" target="showframe">${_L_onu} ID管理</a></li>
+	</ul>
+</div>
+<a class="menuitem" target="showframe">${_L_mtopo}</a>
+<div class="submenu">
+	<ul>
+${onu_networks}
+	</ul>
+</div>
+
+<a class="menuitem submenuheader">${_L_malarm}</a>
+
+<div class="submenu">
+	<ul>
+	<li><a href="/cgi-bin/getalarm.cgi?sessionID=${sessionID}" target="showframe">${_L_macur}</a></li>
+	<li><a href="/cgi-bin/clearalarm.cgi?sessionID=${sessionID}"" target="showframe" >清除告警信息</a></li>
+	</ul>
+</div>
+
+</div>
+
+</BODY>
+</HTML>

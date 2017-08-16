@@ -1,0 +1,20 @@
+﻿<input type="hidden" name="portno" value=${portno}>
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="5" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4></td>
+</tr><tr>  
+	<td width="25%">端口状态:</td> 
+	<td width="25%">${fe_admin_state}</td>  
+	<td width="25%">流控:</td>  
+	<td width="25%">${fe_port_mode}</td>
+</tr><tr>
+	<td width=>端口工作模式:</td>
+	<td width>${fe_working_mode}</td>
+	<td width></td>
+	<td width></td>
+</tr>
+<tr>  
+ 	<td  colspan=5 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('port_set');"></td>
+</tr> 
+</tbody></table>

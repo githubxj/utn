@@ -1,0 +1,41 @@
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4"></td>
+</tr><tr>  
+	<td width="25%">节点号:</td>   
+	<td width="25%">${node_id}</td>
+	<td width="25%">固件版本:</td>   
+	<td width="25%">${version_fw}</td>
+</tr><tr>  
+	<td>节点状态:</td>   
+	<td>${state}</td>
+	<td>距离:</td>   
+	<td>${distance}</td>
+</tr><tr>  
+	<td>节点名称:</td>   
+	<td colspan="3"><input type="text" name="onuname" id="onuname" size="32" value="${onuname}" ></td>
+</tr><tr>
+	<td class="bar" colspan="4"></td>
+</tr><tr>  
+	<td>端口1状态：</td>
+	<td>${port1}</td>
+	<td>端口2状态：</td>
+	<td>${port2}</td>
+</tr><tr>
+	<td>端口3状态：</td>
+	<td>${port3}</td>
+	<td>端口4状态：</td>
+	<td>${port4}</td>
+</tr>
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td><input class="btn" type="button" name="Submit" value="修改"  onclick="EponuSubmit('base');"></td>  
+ 	<td><input class="btn" type="button" name="Submit" value="重启"  onclick="EponuSubmit('reset');"></td>
+ 	</table>
+</tr> 
+ 
+
+</tbody></table>

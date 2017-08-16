@@ -1,0 +1,56 @@
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4></td>
+</tr>
+
+<tr>
+	<td width="25%">视频压缩码率(64K~16M):</td>
+	<td width="25%"><input type="text"  name="vid_bit_rate" id="vid_bit_rate" size="16" value="${vid_bit_rate}" ></td>
+	<td width="25%"></td>
+	<td width="25%"></td>
+</tr>
+
+<tr>
+	<td width="25%">视频码流类型:</td>
+	<td width="25%">${vid_bit_type} </td>
+	<!--
+	<td width="25%">
+	<div id="vbrSelect_div" style="visibility:${vbr_cbr};">${vid_bit_vbr}</div>
+	</td>
+	<td width="25%"></td>
+	-->
+	
+	<td width="25%"><div id="vbr_div" style="visibility:${vbr_cbr};">VBR:</div></td>
+	<td width="25%"><div id="vbrvalue_div" style="visibility:${vbr_cbr};">${vid_bit_vbr}</div></td>
+	
+</tr>
+
+<tr>
+	<td width="25%">图像分辨率:</td>
+	<td width="25%">${resolving} </td>
+	<td width="25%"></td>
+	<td width="25%"></td>
+</tr>
+
+
+<tr>
+	<td width="25%">帧率(1~30):</td>
+	<td width="25%"><input type="text"  name="frm_rate" id="frm_rate" size="16" value="${frm_rate}" > </td>
+	<td width="25%"></td>
+	<td width="25%"></td>
+</tr>
+
+<tr>
+	<td width="25%">GOP:</td>
+	<td width="25%">${gop} </td>
+	<td width="25%"></td>
+	<td width="25%"></td>
+</tr>
+
+<tr>  
+ 	<td  align=left colspan=4 ><input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmit('param_set');" ></td>
+ 
+</tr> 
+</tbody>
+</table>

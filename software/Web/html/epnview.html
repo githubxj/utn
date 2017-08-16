@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>EPON View</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript" >
+
+
+	var xmlHttp = createXMLOBJ();
+	var act;
+
+function delete_offline() 
+{	
+    if(getConfirm()){
+				document.EPNView.submit();
+			}
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+				getObject("basecontents").innerHTML =  xmlHttp.responseText;
+		}
+	}
+	else
+	{
+			getObject("basecontents").innerHTML =  "数据正在提交中......";
+	}
+}
+
+
+</script>
+
+ <STYLE type="text/css">
+   table.mc_nav td {background-color:transparent;}
+ </STYLE>
+
+<body>
+<h1>${cardno}号EPN2000卡 PON-${pon_no}</h1>
+<div id="con">
+<form action="/cgi-bin/epnview.cgi" method="Post" name="EPNView" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" value=${cardno}>
+<input type="hidden" name="pon" value=${pon}>
+<input type="hidden" name="type" value="del">
+
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr> 
+	<td class="bar" width="10%">节点号</td> 
+	<td class="bar" width="20%">MAC</td>   
+	<td class="bar" width="40%">节点名称</td> 
+	<td class="bar" width="10%">距离</td> 
+	<td class="bar" width="10%">状态</td> 
+	<td class="bar" width="10%"></td> 
+</tr>
+${eponu_items_o}
+<tr>  
+	<td class="bar" colspan="6"> 
+		<table class="mc_nav" border="0" width="100%" > <tr>
+				<td align="left">${page_info}</td>	
+				<td align="right"> ${navigate}</td>
+			</tr></table>
+	</td>
+</tr><tr>  
+ 	<td  colspan="6" align=left><input type="button" name="Submit" value="删除所有离线ONU"  onclick="delete_offline();"></td>
+</tr> 
+</tbody></table>
+</form>
+</div>
+</body>
+</html>

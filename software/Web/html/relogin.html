@@ -1,0 +1,17 @@
+<html>
+<HEAD>
+<TITLE>Error</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=UTF-8">
+
+</HEAD>
+<script language="javascript">
+function redirect() {
+window.parent.location = "/cgi-bin/login.cgi";
+}
+
+</script>
+<body onload="setTimeout(redirect,3000);">
+${error} <br>
+<a href="" onclick="redirect();"> ${_L_relogin} </a>
+</body>
+</html>

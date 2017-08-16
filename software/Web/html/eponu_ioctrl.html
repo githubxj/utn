@@ -1,0 +1,23 @@
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4"></td>
+</tr>
+
+<tr>  
+	<td width="25%">IO端口:</td>   
+	<td width="25%"><select class='fixsize'  name='iono' id='iono'>
+	                	<option value='1' selected> 1</option>
+	                	<option value='2' >2</option>
+	                </select></td>
+	<td width="25%">输出状态：</td>   
+	<td width="25%"><select class='fixsize'  name='ioctrl_cmd' id='ioctrl_cmd'>
+	                	<option value='1' selected> 打开</option>
+	                	<option value='0' >关闭</option>
+	                </select></td>
+</tr>
+	<td colspan=4 >
+		<input class="btn" type="button" name="Submit" value="设置" onclick="CheckSubmit('ioctrl');" >
+	</td>	
+</tr>
+</tbody></table>

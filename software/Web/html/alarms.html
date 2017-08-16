@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Alarms</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+ 
+<body >
+<h1>故障告警信息</h1>
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID">
+<table width="80%" class="alarms" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr class="head">  
+	<td align="center" width="20%">告警发生时间</td>   
+	<td align="center" width="15%">故障类型</td>
+	<td align="center" width="15%">故障级别</td>   
+	<td align="center" width="10%">故障设备</td>
+	<td align="center" width="10%">板卡号</td>
+	<td align="center" width="10%">节点号</td>
+	<td align="center" width="10%">端口号</td>
+	<td align="center" width="10%">其他信息</td>
+</tr> 
+	${alarm_recs}
+	
+	<tr class="tail">
+		<td colspan="8" align="left">  <table class="alarms"  border="0" width="100%" > <tr class="tail">
+				<td align="left">${page_info}</td>	
+
+				<td align="right"> ${navigate}</td>
+			</tr></table></td>
+</tr> 
+</tbody>
+
+</form>
+</body>
+</html>

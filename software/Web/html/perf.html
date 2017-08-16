@@ -1,0 +1,53 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="5">
+<title>port performance Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function PerfReset() 
+{
+    
+   			document.getElementById("action").value = 'reset';
+				document.perfForm.submit();
+		
+    
+}
+                                                                  
+</script>
+<body>
+<h1>${head_name}流量统计信息</h1>
+<form action="/cgi-bin/perfview.cgi" method="Post" name="perfForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" value=${cardno}>
+<input type="hidden" name="onuno" value=${onuno}>
+<input type="hidden" name="portno" value=${portno}>
+<input type="hidden" name="action" id="action">
+<table width="80%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan=4>流量信息</td>
+</tr><tr>  
+	<td width="25%">接收字节数:</td>   
+	<td width="25%">${port_recv}</td>
+	<td width="25%">发送字节数:</td>   
+	<td width="25%">${port_send}</td>
+</tr>
+
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td ><input class="btn" type="button" name="Submit" value="清零" onclick="PerfReset();"></td>
+</tr>
+</table>
+</td>
+</tbody></table>
+
+</form>
+</body>
+</html>
+

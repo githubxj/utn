@@ -1,0 +1,129 @@
+
+
+body {
+	margin: 0;
+	padding: 0;
+  BACKGROUND: #bdcddc url(/images/main_bg.gif) repeat-y left;                                                                 
+}
+
+body.sidemenu {
+	background: #EEEEEE;
+}
+
+img {
+	border: 0;	
+}
+
+h1 {
+	font-size: 1.2em; 
+	margin-top: 20px; 
+	margin-left: 30px; 
+	padding-left: 30px; 
+	background: url(/images/bullet.gif) no-repeat;
+}
+
+select.fixsel{
+	width:132px;
+}
+
+select.fixsize{
+	width:132px;
+}
+
+a.pagelink, a.pagelink:link, a.pagelink:visited, a.pagelink:hover {
+	color:#0000ff;
+	font-weight:bold;
+	text-decoration: none;	
+}
+
+a.navlink, a.navlink:link, a.navlink:visited, a.navlink:hover {
+	color:#0000ff;
+	font: 16px 'Webdings';
+	font-weight:bold;
+	text-decoration: none;	
+}
+
+table.alarms td {
+	font-size: 0.8em; 
+}
+
+table.alarms tr.s1 {
+	background-color: #ff0000;
+}
+
+table.alarms tr.s2 {
+	background-color: #FFff00;
+}
+
+table.alarms tr.s3 {
+	background-color: #00ff00;
+}
+
+table.alarms tr.head {
+	font-weight:bold;
+	color:#ffffff;
+	height: 30px;
+	background-color: #00007f;
+}
+table.alarms tr.tail {
+	font-weight:bold;
+	color:#ffffff;
+	background-color: #00007f;
+}
+
+table.field {
+background-color: #FFFFFF;
+}
+
+table.field td {
+	font-size: 0.9em; 
+	background-color: #DCE4ED;
+}
+
+table.field td.bar {
+	font-size:0.8em;
+	font-weight:bold;
+	color:#000060;
+	height:20px;
+	height: 10px;
+	background: url(/images/subtitle_bg.gif) repeat-x;
+}
+
+table.field td input.btn {
+	width : 100px;
+	margin-top: 3px;
+	padding-top: 3px; 
+	vertical-align:middle;
+}
+
+table.field td input.btn1 {
+	width : 60px;
+	margin-top: 3px;
+	padding-top: 3px; 
+	vertical-align:middle;
+}
+
+a:link {
+	color: #900;
+}
+a:visited {
+	/* color: #48468f;*/
+	color: #900;
+}
+a:hover {
+	/* color: #f20; */
+	color: #900;
+}
+a[name] {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+.login {
+	margin-top:  80px;
+	BORDER-LEFT: #F0F0F0 3px solid; 
+	BORDER-TOP: #F0F0F0 3px solid; 
+	BORDER-RIGHT: #707070 3px solid; 
+	BORDER-BOTTOM: #707070 3px solid;
+}
+

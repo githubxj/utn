@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>NTT Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link href="/css/ajaxtabs.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript">
+
+var xmlHttp = createXMLOBJ();
+var act;
+
+		
+function CheckSubmit(submit_action) 
+{	
+	
+	act =	 submit_action;
+	if (act == "set")
+	{
+			
+		if(isInRange(document.getElementById("storm_threshold"),0,2047,"广播风暴阈值")==false)
+		{
+			return;
+		}
+	}
+
+	if(getConfirm())
+	{
+		if ( xmlHttp )
+		{
+			var cardno = getObjectvalue("cardno");
+			var sendData;
+			if (act == "set")
+			{
+						
+						
+				sendData = "sessionID=${sessionID}&cardno=" +cardno ;
+					
+				sendData = sendData + "&ntt_admin_state1=" + getObjectvalue("ntt_admin_state1") + "&ntt_bw_alloc_send1=" + getObjectvalue("ntt_bw_alloc_send1") + "&ntt_bw_alloc_recv1=" + getObjectvalue("ntt_bw_alloc_recv1");
+					
+				sendData = sendData + "&ntt_admin_state2=" + getObjectvalue("ntt_admin_state2") + "&ntt_bw_alloc_send2=" + getObjectvalue("ntt_bw_alloc_send2") + "&ntt_bw_alloc_recv2=" + getObjectvalue("ntt_bw_alloc_recv2");
+				sendData = sendData + "&ntt_admin_state3=" + getObjectvalue("ntt_admin_state3") + "&ntt_bw_alloc_send3=" + getObjectvalue("ntt_bw_alloc_send3") + "&ntt_bw_alloc_recv3=" + getObjectvalue("ntt_bw_alloc_recv3");
+				sendData = sendData + "&ntt_admin_state4=" + getObjectvalue("ntt_admin_state4") + "&ntt_bw_alloc_send4=" + getObjectvalue("ntt_bw_alloc_send4") + "&ntt_bw_alloc_recv4=" + getObjectvalue("ntt_bw_alloc_recv4");
+				sendData = sendData + "&ntt_admin_state5=" + getObjectvalue("ntt_admin_state5") + "&ntt_bw_alloc_send5=" + getObjectvalue("ntt_bw_alloc_send5") + "&ntt_bw_alloc_recv5=" + getObjectvalue("ntt_bw_alloc_recv5");
+						
+				sendData = sendData + "&ntt_admin_state6=" + getObjectvalue("ntt_admin_state6") + "&ntt_bw_alloc_send6=" + getObjectvalue("ntt_bw_alloc_send6") + "&ntt_bw_alloc_recv6=" + getObjectvalue("ntt_bw_alloc_recv6");
+
+				sendData = sendData + "&ntt_admin_state7=" + getObjectvalue("ntt_admin_state7") + "&ntt_bw_alloc_send7=" + getObjectvalue("ntt_bw_alloc_send7") + "&ntt_bw_alloc_recv7=" + getObjectvalue("ntt_bw_alloc_recv7");
+				sendData = sendData + "&ntt_admin_state8=" + getObjectvalue("ntt_admin_state8") + "&ntt_bw_alloc_send8=" + getObjectvalue("ntt_bw_alloc_send8") + "&ntt_bw_alloc_recv8=" + getObjectvalue("ntt_bw_alloc_recv8");
+							
+				sendData = sendData + "&storm_ctrl=" + getObjectvalue("storm_ctrl") + "&storm_threshold=" + getObjectvalue("storm_threshold");
+				sendData = sendData + "&action=" + act;
+						
+			}
+					
+			xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+			xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			xmlHttp.setRequestHeader ("Content-length", sendData.length);
+			xmlHttp.setRequestHeader ("Connection", "close");
+			xmlHttp.onreadystatechange=showcontents;
+			xmlHttp.send(sendData);
+		
+		}
+	}
+}
+
+function baseSubmit() 
+{	
+	
+	if(getConfirm())
+	 {
+		if ( xmlHttp )
+		{
+			var cardno = getObjectvalue("cardno");
+			var sendData;
+				
+			sendData = "sessionID=${sessionID}&action=base"  + "&cardno=" +cardno + "&card_name=" + getObjectvalue("card_name") + "&admin_state=" + getObjectvalue("admin_state");
+					
+			xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+			xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+			xmlHttp.setRequestHeader ("Content-length", sendData.length);
+			xmlHttp.setRequestHeader ("Connection", "close");
+			xmlHttp.onreadystatechange=cardcontents;
+			xmlHttp.send(sendData);
+		
+		}
+	}
+}
+
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+			getObject("mttcontents").innerHTML =  xmlHttp.responseText;
+		}
+	}
+	else
+	 {
+		getObject("mttcontents").innerHTML =  "数据正在提交中......";
+	}
+}
+
+function cardcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{					
+			getObject("con").innerHTML =  xmlHttp.responseText;					
+		}			
+	}
+	else
+	{						
+		getObject("con").innerHTML =  "数据正在提交中......";						
+	}
+}
+                                                        
+</script>
+<body>	
+<h1>MTT卡信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="nttform" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="node_id" id="node_id" value=${node_id}>
+<input type="hidden" name="action" id="action">
+
+<div id="baseinfo" class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<!--
+<tr>
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center">
+		<td align="left" > <a class="pagelink" href="/cgi-bin/nttperfview.cgi?sessionID=${sessionID}&cardno=${card_no}&action=get">MTT卡统计数据</a></td>
+	</table>	
+</tr>	
+-->
+
+<tr>
+	<td class="bar" colspan=4>基本信息</td>
+</tr>
+
+<tr>  
+	<td width="20%">板卡类型:</td>   
+	<td width="30%">${card_type}</td>
+	<td width="20%">板卡号:</td>   
+	<td width="30%">${card_no}</td>
+</tr>
+
+<tr>  
+	<td>硬件版本:</td>   
+	<td>${version_hw}</td>
+	<td>固件版本:</td>   
+	<td>${version_fw}</td>
+</tr>
+
+<tr>  
+	<td>软件版本:</td>   
+	<td>${version_sw}</td>
+	<td>操作系统版本:</td>   
+	<td>${version_os}</td>
+</tr>
+
+<tr>  
+	<td>板卡名称:</td>   
+	<td><input type="text" name="card_name" id="card_name"  value="${card_name}" size="16" ></td>
+	<td>管理状态:</td>   
+	<td>${admin_state}</td>
+</tr>
+
+
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="baseSubmit();"></td>
+</tr>
+
+
+</tbody></table>
+</div>
+
+<!--以下采用ajax动态表格技术来实现
+-->
+<div id="mtttabs" class="modernbricksmenu2">
+<ul>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=getstate" rel="mttcontents">状态信息</a></li>
+</ul>
+</div>
+
+<div id="mttcontents" class="contentstyle">
+</div>
+
+</form>
+<script defer type="text/javascript">
+var mtttab = new ddajaxtabs("mtttabs", "mttcontents")
+mtttab.setpersist(true)
+mtttab.setselectedClassTarget("linkparent") //"link" or "linkparent"
+mtttab.init() 
+</script>
+</div>
+</body>
+</html>

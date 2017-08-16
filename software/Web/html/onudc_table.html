@@ -1,0 +1,41 @@
+
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4">通道1</td>
+</tr>
+<tr>  
+	<td width="25%">波特率:</td>   
+	<td width="25%"><select class='fixsize'  name='baudrate1' id='baudrate1'> ${baudrate1}</select></td>
+	<td width="25%">端口选择:</td>   
+	<td width="25%"><select class='fixsize'  name='port_sel1' id='port_sel1'>${port_sel1}</select></td>
+</tr>
+<tr>  
+	<td>数据接收缓冲:</td>   
+	<td><input type="text" name="data_buff1" id="data_buff1" size="16" value="${data_buff1}">ms</td>
+	<td colspan=2 align="center">
+		<input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmit('datach1');" >
+	</td>	
+</tr>
+<tr>  
+	<td class="bar" colspan="4">通道2</td>
+</tr>
+<tr>  
+	<td width="25%">波特率:</td>   
+	<td width="25%"><select class='fixsize'  name='baudrate2' id='baudrate2'> ${baudrate2}</select></td>
+	<td width="25%">端口选择:</td>   
+	<td width="25%"><select class='fixsize'  name='port_sel2' id='port_sel2'>${port_sel2}</select></td>
+</tr>
+<tr>  
+	<td>数据接收缓冲:</td>   
+	<td><input type="text" name="data_buff2" id="data_buff2" size="16" value="${data_buff2}">ms</td>
+	<td colspan=2 align="center">
+		<input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmit('datach2');" >
+	</td>	
+</tr>
+
+</table>
+</td>
+</tbody></table>
+
+

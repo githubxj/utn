@@ -1,0 +1,40 @@
+<input type="hidden" name="node_id" value=${node_id}>
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>	
+<tr>
+<td class="bar" colspan=4 >配置信息</td>
+</tr> 	
+<tr>
+	<td>端口锁定：</td>
+	<td>${port_lock}</td>
+	<td>传输模式：</td>
+	<td>${transmit_mode}</td>
+</tr>	
+
+<tr>
+	<td>SFP状态：</td>
+	<td>${sfp_state}</td>
+	<td>光口状态：</td>
+	<td>${fx_link}</td>
+</tr>
+
+<tr>
+	<td>上行带宽：</td>
+	<td><input type="text" name="up_stream" id="up_stream" size="16" value="${up_stream}">Kbps</td>
+	<td>下行带宽：</td>
+	<td><input type="text" name="down_stream" id="down_stream" size="16" value="${down_stream}">Kbps</td>
+</tr>
+<tr>
+	<td align="right" colspan=4><a class="pagelink" href="/cgi-bin/perfview.cgi?sessionID=${sessionID}&cardno=${card_no}&onuno=${node_id}&portno=${node_id}">${node_id}号光口流量统计信息>></a></td>	
+</tr>
+<tr>
+	<td colspan=4 > 
+	<table width="100%" class="field" border="0" cellpadding="0" cellspacing="0" aligin="center" >
+	<tr>
+ 	  <td align="left"><input class="btn" type="button" name="Submit" value="设置"  onclick="CheckSubmit('set_loc');"></td>
+ 	  <td align="center"><input class="btn" type="button" name="Submit" value="卡复位" onclick="CheckSubmit('reset_loc');"></td>
+ 	  <td align="right"><input class="btn" type="button" name="Submit" value="恢复出厂设置" onclick="CheckSubmit('setdefault_loc');"></td>
+</tr></table>
+</tr> 
+</tbody></table>
+

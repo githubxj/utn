@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="10">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>${_L_fsa} Card statistic count</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function CountReset() 
+{
+    
+   			document.getElementById("action").value = 'reset';
+				document.countForm.submit();
+		
+    
+}
+                                                                  
+</script>
+<body >
+<h1>${card_no}号${_L_fsa}1000卡统计数据</h1>
+<div id="con">
+<form action="/cgi-bin/countview.cgi" method="Post" name="countForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<input type="hidden" name="action" id="action">
+<div class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+	
+<tr>  
+	<td width="30%">设备名称</td>   
+	<td width="35%">${count1_name}</td>
+	<td width="35%">${count2_name}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-1</td>   
+	<td width="35%">${onu1_count1}</td>
+	<td width="35%">${onu1_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-2</td>   
+	<td width="35%">${onu2_count1}</td>
+	<td width="35%">${onu2_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-3</td>   
+	<td width="35%">${onu3_count1}</td>
+	<td width="35%">${onu3_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-4</td>   
+	<td width="35%">${onu4_count1}</td>
+	<td width="35%">${onu4_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-5</td>   
+	<td width="35%">${onu5_count1}</td>
+	<td width="35%">${onu5_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-6</td>   
+	<td width="35%">${onu6_count1}</td>
+	<td width="35%">${onu6_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-7</td>   
+	<td width="35%">${onu7_count1}</td>
+	<td width="35%">${onu7_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-8</td>   
+	<td width="35%">${onu8_count1}</td>
+	<td width="35%">${onu8_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-9</td>   
+	<td width="35%">${onu9_count1}</td>
+	<td width="35%">${onu9_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-10</td>   
+	<td width="35%">${onu10_count1}</td>
+	<td width="35%">${onu10_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-11</td>   
+	<td width="35%">${onu11_count1}</td>
+	<td width="35%">${onu11_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-12</td>   
+	<td width="35%">${onu12_count1}</td>
+	<td width="35%">${onu12_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-13</td>   
+	<td width="35%">${onu13_count1}</td>
+	<td width="35%">${onu13_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-14</td>   
+	<td width="35%">${onu14_count1}</td>
+	<td width="35%">${onu14_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-15</td>   
+	<td width="35%">${onu15_count1}</td>
+	<td width="35%">${onu15_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-16</td>   
+	<td width="35%">${onu16_count1}</td>
+	<td width="35%">${onu16_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-17</td>   
+	<td width="35%">${onu17_count1}</td>
+	<td width="35%">${onu17_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-18</td>   
+	<td width="35%">${onu18_count1}</td>
+	<td width="35%">${onu18_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-19</td>   
+	<td width="35%">${onu19_count1}</td>
+	<td width="35%">${onu19_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-20</td>   
+	<td width="35%">${onu20_count1}</td>
+	<td width="35%">${onu20_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-21</td>   
+	<td width="35%">${onu21_count1}</td>
+	<td width="35%">${onu21_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-22</td>   
+	<td width="35%">${onu22_count1}</td>
+	<td width="35%">${onu22_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-23</td>   
+	<td width="35%">${onu23_count1}</td>
+	<td width="35%">${onu23_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">${_L_onu}-24</td>   
+	<td width="35%">${onu24_count1}</td>
+	<td width="35%">${onu24_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">GE-Port1</td>   
+	<td width="35%">${ge1_count1}</td>
+	<td width="35%">${ge1_count2}</td>   
+</tr>
+
+<tr>  
+	<td width="30%">GE-Port2</td>   
+	<td width="35%">${ge2_count1}</td>
+	<td width="35%">${ge2_count2}</td>   
+</tr>
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td ><input class="btn" type="button" name="Submit" value="清零" onclick="CountReset();"></td>
+</tr>
+</table>
+</td>
+</tbody></table>
+</div>
+</form>
+</div>
+</body>
+</html>

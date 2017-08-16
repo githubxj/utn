@@ -1,0 +1,44 @@
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+
+<tr>  
+	<td class="bar" colspan=2>输出通道1</td> <td class="bar" colspan=2>输出通道2</td>
+</tr>
+
+<tr>  
+	<td width="25%">当前显示模式:</td>   
+	<td width="25%"><select class='fixsize' id='display_mode1' name='display_mode1'>${display_mode1}</select></td>
+	<td width="25%">当前显示模式:</td>   
+	<td width="25%"><select class='fixsize' id='display_mode2' name='display_mode2'>${display_mode2}</select></td>
+</tr>
+<tr>  
+ 	<td align="center" colspan=2 ><input class="btn" type="button" name="Submit" value="切换" onclick="ModeSwitch('d1');" ></td>
+ 	<td align="center" colspan=2 ><input class="btn" type="button" name="Submit" value="切换" onclick="ModeSwitch('d2');" ></td>
+</tr> 
+<tr>  
+	<td align="center" class="bar" colspan=4>视频切换</td>
+</tr>
+<tr>  
+	<td>输入通道</td>   
+	<td>
+		<select class='fixsize'  name='input_ch' id='input_ch'>
+					<option value='0' selected>SDI1</option>	
+					<option value='1'>SDI2</option>	
+					<option value='2'>CVBS1</option>	
+					<option value='3'>CVBS2</option>	
+					<option value='4'>解码码流1</option>
+					<option value='5'>解码码流2</option>
+					<option value='6'>解码码流3</option>
+					<option value='7'>解码码流4</option>
+					<option value='8'>解码码流5</option>
+					<option value='9'>解码码流6</option>
+					<option value='10'>解码码流7</option>
+					<option value='11'>解码码流8</option>
+		</select></td>
+	<td>输出通道</td>   
+	<td><select class='fixsize'  name='output_ch' id='output_ch'> ${output_list} > </select></td>
+
+</tr><tr>  
+ 	<td align="center" colspan=4 ><input class="btn" type="button" name="Submit" value="切换" onclick="ModeSwitch('v');" ></td>
+</tr> 
+</tbody></table>

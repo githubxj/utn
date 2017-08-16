@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="refresh" content="10">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>control Card statistic count</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function CountReset() 
+{
+    
+   			document.getElementById("action").value = 'swreset';
+				document.countForm.submit();
+		
+    
+}
+                                                                  
+</script>
+<body >
+<h1>${card_no}号控制卡统计数据</h1>
+<div id="con">
+<form action="/cgi-bin/countview.cgi" method="Post" name="countForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" value=${card_no}>
+<input type="hidden" name="action" id="action">
+<div class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+	
+<tr>  
+	<td width="12%">端口</td>   
+	<td width="11%">接收字节数</td>
+	<td width="11%">接收包统计</td> 
+	<td width="11%">接收组播包统计</td>
+	<td width="11%">接收广播包统计</td>
+	<td width="11%">发送字节数</td>
+	<td width="11%">发送包统计</td> 
+	<td width="11%">发送组播包统计</td>
+	<td width="11%">发送广播包统计</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-1</td>   
+	<td width="11%">${recvbyte_fe1}</td>
+	<td width="11%">${recvpkt_fe1}</td> 
+	<td width="11%">${recvmcpkt_fe1}</td>
+	<td width="11%">${recvbcpkt_fe1}</td>
+	<td width="11%">${tranbyte_fe1}</td>
+	<td width="11%">${tranpkt_fe1}</td> 
+	<td width="11%">${tranmcpkt_fe1}</td>
+	<td width="11%">${tranbcpkt_fe1}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-2</td>   
+	<td width="11%">${recvbyte_fe2}</td>
+	<td width="11%">${recvpkt_fe2}</td> 
+	<td width="11%">${recvmcpkt_fe2}</td>
+	<td width="11%">${recvbcpkt_fe2}</td>
+	<td width="11%">${tranbyte_fe2}</td>
+	<td width="11%">${tranpkt_fe2}</td> 
+	<td width="11%">${tranmcpkt_fe2}</td>
+	<td width="11%">${tranbcpkt_fe2}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-3</td>   
+	<td width="11%">${recvbyte_fe3}</td>
+	<td width="11%">${recvpkt_fe3}</td> 
+	<td width="11%">${recvmcpkt_fe3}</td>
+	<td width="11%">${recvbcpkt_fe3}</td>
+	<td width="11%">${tranbyte_fe3}</td>
+	<td width="11%">${tranpkt_fe3}</td> 
+	<td width="11%">${tranmcpkt_fe3}</td>
+	<td width="11%">${tranbcpkt_fe3}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-4</td>   
+	<td width="11%">${recvbyte_fe4}</td>
+	<td width="11%">${recvpkt_fe4}</td> 
+	<td width="11%">${recvmcpkt_fe4}</td>
+	<td width="11%">${recvbcpkt_fe4}</td>
+	<td width="11%">${tranbyte_fe4}</td>
+	<td width="11%">${tranpkt_fe4}</td> 
+	<td width="11%">${tranmcpkt_fe4}</td>
+	<td width="11%">${tranbcpkt_fe4}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-5</td>   
+	<td width="11%">${recvbyte_fe5}</td>
+	<td width="11%">${recvpkt_fe5}</td> 
+	<td width="11%">${recvmcpkt_fe5}</td>
+	<td width="11%">${recvbcpkt_fe5}</td>
+	<td width="11%">${tranbyte_fe5}</td>
+	<td width="11%">${tranpkt_fe5}</td> 
+	<td width="11%">${tranmcpkt_fe5}</td>
+	<td width="11%">${tranbcpkt_fe5}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-6</td>   
+	<td width="11%">${recvbyte_fe6}</td>
+	<td width="11%">${recvpkt_fe6}</td> 
+	<td width="11%">${recvmcpkt_fe6}</td>
+	<td width="11%">${recvbcpkt_fe6}</td>
+	<td width="11%">${tranbyte_fe6}</td>
+	<td width="11%">${tranpkt_fe6}</td> 
+	<td width="11%">${tranmcpkt_fe6}</td>
+	<td width="11%">${tranbcpkt_fe6}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-7</td>   
+	<td width="11%">${recvbyte_fe7}</td>
+	<td width="11%">${recvpkt_fe7}</td> 
+	<td width="11%">${recvmcpkt_fe7}</td>
+	<td width="11%">${recvbcpkt_fe7}</td>
+	<td width="11%">${tranbyte_fe7}</td>
+	<td width="11%">${tranpkt_fe7}</td> 
+	<td width="11%">${tranmcpkt_fe7}</td>
+	<td width="11%">${tranbcpkt_fe7}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-8</td>   
+	<td width="11%">${recvbyte_fe8}</td>
+	<td width="11%">${recvpkt_fe8}</td> 
+	<td width="11%">${recvmcpkt_fe8}</td>
+	<td width="11%">${recvbcpkt_fe8}</td>
+	<td width="11%">${tranbyte_fe8}</td>
+	<td width="11%">${tranpkt_fe8}</td> 
+	<td width="11%">${tranmcpkt_fe8}</td>
+	<td width="11%">${tranbcpkt_fe8}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-9</td>   
+	<td width="11%">${recvbyte_fe9}</td>
+	<td width="11%">${recvpkt_fe9}</td> 
+	<td width="11%">${recvmcpkt_fe9}</td>
+	<td width="11%">${recvbcpkt_fe9}</td>
+	<td width="11%">${tranbyte_fe9}</td>
+	<td width="11%">${tranpkt_fe9}</td> 
+	<td width="11%">${tranmcpkt_fe9}</td>
+	<td width="11%">${tranbcpkt_fe9}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-10</td>   
+	<td width="11%">${recvbyte_fe10}</td>
+	<td width="11%">${recvpkt_fe10}</td> 
+	<td width="11%">${recvmcpkt_fe10}</td>
+	<td width="11%">${recvbcpkt_fe10}</td>
+	<td width="11%">${tranbyte_fe10}</td>
+	<td width="11%">${tranpkt_fe10}</td> 
+	<td width="11%">${tranmcpkt_fe10}</td>
+	<td width="11%">${tranbcpkt_fe10}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-11</td>   
+	<td width="11%">${recvbyte_fe11}</td>
+	<td width="11%">${recvpkt_fe11}</td> 
+	<td width="11%">${recvmcpkt_fe11}</td>
+	<td width="11%">${recvbcpkt_fe11}</td>
+	<td width="11%">${tranbyte_fe11}</td>
+	<td width="11%">${tranpkt_fe11}</td> 
+	<td width="11%">${tranmcpkt_fe11}</td>
+	<td width="11%">${tranbcpkt_fe11}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-12</td>   
+	<td width="11%">${recvbyte_fe12}</td>
+	<td width="11%">${recvpkt_fe12}</td> 
+	<td width="11%">${recvmcpkt_fe12}</td>
+	<td width="11%">${recvbcpkt_fe12}</td>
+	<td width="11%">${tranbyte_fe12}</td>
+	<td width="11%">${tranpkt_fe12}</td> 
+	<td width="11%">${tranmcpkt_fe12}</td>
+	<td width="11%">${tranbcpkt_fe12}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-13</td>   
+	<td width="11%">${recvbyte_fe13}</td>
+	<td width="11%">${recvpkt_fe13}</td> 
+	<td width="11%">${recvmcpkt_fe13}</td>
+	<td width="11%">${recvbcpkt_fe13}</td>
+	<td width="11%">${tranbyte_fe13}</td>
+	<td width="11%">${tranpkt_fe13}</td> 
+	<td width="11%">${tranmcpkt_fe13}</td>
+	<td width="11%">${tranbcpkt_fe13}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-14</td>   
+	<td width="11%">${recvbyte_fe14}</td>
+	<td width="11%">${recvpkt_fe14}</td> 
+	<td width="11%">${recvmcpkt_fe14}</td>
+	<td width="11%">${recvbcpkt_fe14}</td>
+	<td width="11%">${tranbyte_fe14}</td>
+	<td width="11%">${tranpkt_fe14}</td> 
+	<td width="11%">${tranmcpkt_fe14}</td>
+	<td width="11%">${tranbcpkt_fe14}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-15</td>   
+	<td width="11%">${recvbyte_fe15}</td>
+	<td width="11%">${recvpkt_fe15}</td> 
+	<td width="11%">${recvmcpkt_fe15}</td>
+	<td width="11%">${recvbcpkt_fe15}</td>
+	<td width="11%">${tranbyte_fe15}</td>
+	<td width="11%">${tranpkt_fe15}</td> 
+	<td width="11%">${tranmcpkt_fe15}</td>
+	<td width="11%">${tranbcpkt_fe15}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-16</td>   
+	<td width="11%">${recvbyte_fe16}</td>
+	<td width="11%">${recvpkt_fe16}</td> 
+	<td width="11%">${recvmcpkt_fe16}</td>
+	<td width="11%">${recvbcpkt_fe16}</td>
+	<td width="11%">${tranbyte_fe16}</td>
+	<td width="11%">${tranpkt_fe16}</td> 
+	<td width="11%">${tranmcpkt_fe16}</td>
+	<td width="11%">${tranbcpkt_fe16}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-17</td>   
+	<td width="11%">${recvbyte_fe17}</td>
+	<td width="11%">${recvpkt_fe17}</td> 
+	<td width="11%">${recvmcpkt_fe17}</td>
+	<td width="11%">${recvbcpkt_fe17}</td>
+	<td width="11%">${tranbyte_fe17}</td>
+	<td width="11%">${tranpkt_fe17}</td> 
+	<td width="11%">${tranmcpkt_fe17}</td>
+	<td width="11%">${tranbcpkt_fe17}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-18</td>   
+	<td width="11%">${recvbyte_fe18}</td>
+	<td width="11%">${recvpkt_fe18}</td> 
+	<td width="11%">${recvmcpkt_fe18}</td>
+	<td width="11%">${recvbcpkt_fe18}</td>
+	<td width="11%">${tranbyte_fe18}</td>
+	<td width="11%">${tranpkt_fe18}</td> 
+	<td width="11%">${tranmcpkt_fe18}</td>
+	<td width="11%">${tranbcpkt_fe18}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-19</td>   
+	<td width="11%">${recvbyte_fe19}</td>
+	<td width="11%">${recvpkt_fe19}</td> 
+	<td width="11%">${recvmcpkt_fe19}</td>
+	<td width="11%">${recvbcpkt_fe19}</td>
+	<td width="11%">${tranbyte_fe19}</td>
+	<td width="11%">${tranpkt_fe19}</td> 
+	<td width="11%">${tranmcpkt_fe19}</td>
+	<td width="11%">${tranbcpkt_fe19}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-20</td>   
+	<td width="11%">${recvbyte_fe20}</td>
+	<td width="11%">${recvpkt_fe20}</td> 
+	<td width="11%">${recvmcpkt_fe20}</td>
+	<td width="11%">${recvbcpkt_fe20}</td>
+	<td width="11%">${tranbyte_fe20}</td>
+	<td width="11%">${tranpkt_fe20}</td> 
+	<td width="11%">${tranmcpkt_fe20}</td>
+	<td width="11%">${tranbcpkt_fe20}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-21</td>   
+	<td width="11%">${recvbyte_fe21}</td>
+	<td width="11%">${recvpkt_fe21}</td> 
+	<td width="11%">${recvmcpkt_fe21}</td>
+	<td width="11%">${recvbcpkt_fe21}</td>
+	<td width="11%">${tranbyte_fe21}</td>
+	<td width="11%">${tranpkt_fe21}</td> 
+	<td width="11%">${tranmcpkt_fe21}</td>
+	<td width="11%">${tranbcpkt_fe21}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-22</td>   
+	<td width="11%">${recvbyte_fe22}</td>
+	<td width="11%">${recvpkt_fe22}</td> 
+	<td width="11%">${recvmcpkt_fe22}</td>
+	<td width="11%">${recvbcpkt_fe22}</td>
+	<td width="11%">${tranbyte_fe22}</td>
+	<td width="11%">${tranpkt_fe22}</td> 
+	<td width="11%">${tranmcpkt_fe22}</td>
+	<td width="11%">${tranbcpkt_fe22}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-23</td>   
+	<td width="11%">${recvbyte_fe23}</td>
+	<td width="11%">${recvpkt_fe23}</td> 
+	<td width="11%">${recvmcpkt_fe23}</td>
+	<td width="11%">${recvbcpkt_fe23}</td>
+	<td width="11%">${tranbyte_fe23}</td>
+	<td width="11%">${tranpkt_fe23}</td> 
+	<td width="11%">${tranmcpkt_fe23}</td>
+	<td width="11%">${tranbcpkt_fe23}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">FE-24</td>   
+	<td width="11%">${recvbyte_fe24}</td>
+	<td width="11%">${recvpkt_fe24}</td> 
+	<td width="11%">${recvmcpkt_fe24}</td>
+	<td width="11%">${recvbcpkt_fe24}</td>
+	<td width="11%">${tranbyte_fe24}</td>
+	<td width="11%">${tranpkt_fe24}</td> 
+	<td width="11%">${tranmcpkt_fe24}</td>
+	<td width="11%">${tranbcpkt_fe24}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">GE-1</td>   
+	<td width="11%">${recvbyte_ge1}</td>
+	<td width="11%">${recvpkt_ge1}</td> 
+	<td width="11%">${recvmcpkt_ge1}</td>
+	<td width="11%">${recvbcpkt_ge1}</td>
+	<td width="11%">${tranbyte_ge1}</td>
+	<td width="11%">${tranpkt_ge1}</td> 
+	<td width="11%">${tranmcpkt_ge1}</td>
+	<td width="11%">${tranbcpkt_ge1}</td>     
+</tr>
+
+<tr>  
+	<td width="12%">GE-2</td>   
+	<td width="11%">${recvbyte_ge2}</td>
+	<td width="11%">${recvpkt_ge2}</td> 
+	<td width="11%">${recvmcpkt_ge2}</td>
+	<td width="11%">${recvbcpkt_ge2}</td>
+	<td width="11%">${tranbyte_ge2}</td>
+	<td width="11%">${tranpkt_ge2}</td> 
+	<td width="11%">${tranmcpkt_ge2}</td>
+	<td width="11%">${tranbcpkt_ge2}</td>     
+</tr>
+
+
+
+<tr> 
+	<td colspan=9>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td ><input class="btn" type="button" name="Submit" value="清零" onclick="CountReset();"></td>
+</tr>
+</table>
+</td>
+</tbody></table>
+</div>
+</form>
+</div>
+</body>
+</html>

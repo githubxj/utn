@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>net configuration</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function ensureconfirm()
+{
+		return (confirm ('您确定要修改吗?一旦确认修改,需要重启才能生效！'));	
+	
+}
+
+function CheckSubmitAction(submit_action) 
+{
+			document.getElementById("action").value = submit_action;
+		 if(isIpAddress(document.getElementById("ip")) == false){
+				return;
+			}
+		if(isIpAddress(document.getElementById("mask")) == false){
+				return;
+		}
+		if(isIpAddress(document.getElementById("gateway")) == false){
+			return;
+		}
+    if(ensureconfirm()){
+			
+	   		document.getElementById("ipchg").value = document.getElementById("ip").value;
+	   		document.Form.submit();
+			
+    }
+}
+  
+                                                                  
+</script>
+<body>
+<h1>控制卡网络配置</h1>
+
+<form action="/cgi-bin/netconfig.cgi" method="post" name="Form">
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name= "ipchg"  id= "ipchg" value=${ipchg} >
+<input type="hidden" name="action" id="action">
+<table width="60%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=2>配置信息</td>
+</tr><tr>
+	<td width="%50">系统IP地址:</td>
+	<td width="%50"><input type="text"  name="ip" id="ip" size="16" value="${ip}" ></td>
+</tr><tr>
+	<td width="%50">系统子网掩码:</td>
+	<td width="%50"><input type="text"  name="mask" id="mask" size="16" value="${mask}" ></td>
+</tr><tr>
+	<td width="%50">系统网关:</td>
+	<td width="%50"><input type="text"  name="gateway" id="gateway" size="16" value="${gateway}" ></td>
+</tr>
+<tr>  
+ 	<td  align=left colspan=2 ><input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmitAction('set');" ></td>
+ 
+</tr> 
+
+
+
+</tbody></table>
+</form>
+<br>
+<br>
+</body>
+</html>

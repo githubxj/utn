@@ -1,0 +1,64 @@
+﻿
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4"></td>
+</tr>
+
+<tr>  
+	<td width="25%"></td>   
+	<td width="25%">镜像端口</td>
+	<td width="25%">Rx port to be mirrored</td>   
+	<td width="25%">Tx port to be mirrored</td>
+</tr>
+
+<tr>  
+	<td>端口 1:</td>   
+	<td><input type="checkbox" name="port1Mirror" id="port1Mirror" ${port1Mirror} ></td>
+	<td><input type="checkbox" name="port1Rx" id="port1Rx" ${port1Rx} ></td>   
+	<td><input type="checkbox" name="port1Tx" id="port1Tx" ${port1Tx} ></td>
+</tr>
+
+<tr>  
+	<td>端口 2:</td>   
+	<td><input type="checkbox" name="port2Mirror" id="port2Mirror" ${port2Mirror} ></td>
+	<td><input type="checkbox" name="port2Rx" id="port2Rx" ${port2Rx} ></td>   
+	<td><input type="checkbox" name="port2Tx" id="port2Tx" ${port2Tx} ></td>
+</tr>
+
+<tr>  
+	<td>端口 3:</td>   
+	<td><input type="checkbox" name="port3Mirror" id="port3Mirror" ${port3Mirror} ></td>
+	<td><input type="checkbox" name="port3Rx" id="port3Rx" ${port3Rx} ></td>   
+	<td><input type="checkbox" name="port3Tx" id="port3Tx" ${port3Tx} ></td>
+</tr>
+
+<tr>  
+	<td>端口 4:</td>   
+	<td><input type="checkbox" name="port4Mirror" id="port4Mirror" ${port4Mirror} ></td>
+	<td><input type="checkbox" name="port4Rx" id="port4Rx" ${port4Rx} ></td>   
+	<td><input type="checkbox" name="port4Tx" id="port4Tx" ${port4Tx} ></td>
+</tr>
+
+<tr>  
+	<td>端口 5:</td>   
+	<td><input type="checkbox" name="port5Mirror" id="port5Mirror" ${port5Mirror} ></td>
+	<td><input type="checkbox" name="port5Rx" id="port5Rx" ${port5Rx} ></td>   
+	<td><input type="checkbox" name="port5Tx" id="port5Tx" ${port5Tx} ></td>
+</tr>
+
+<tr>  
+	<td>包括坏帧:</td>   
+	<td><input type="checkbox" onclick="checkboxValue(this);" id="badframes" name="badframes" ${badframes} ></td>
+	<td>同时匹配源端口,目的端口:</td>   
+	<td><input type="checkbox" onclick="checkboxValue(this);" id="sourceanddestination" name="sourceanddestination" ${sourceanddestination} ></td>
+</tr>
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td   align=left ><input class="btn" type="button" name="Submit" value="修改" onclick="CheckSubmit('portmirror');"></td>
+</tr>
+</table>
+</td>
+</tbody></table>

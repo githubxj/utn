@@ -1,0 +1,83 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>sfp Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function page_hide() 
+{
+  	if (document.getElementById("compliance").value == 1)
+  	{
+  		
+  		document.getElementById("hidden").style.visibility = 'visible';
+  	} 
+  	if (document.getElementById("connect_type").value == "RJ45") 
+  	{
+  		document.getElementById("copper").style.visibility = 'visible';	
+  		document.getElementById("copper_len").style.visibility = 'visible';	
+  	}
+}
+
+
+                                                                  
+</script>
+<body onload="page_hide();">
+<h1>光口信息</h1>
+<form >
+<input type="hidden" name="sessionID" >
+<input type="hidden" name="compliance" id="compliance" value=${compliance}>
+<input type="hidden" name="connect_type" id="connect_type" value=${connect_type}>
+<table width="60%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" colspan=4>基本信息</td>
+</tr><tr>  
+	<td width="20%">厂商:</td>   
+	<td width="30%">${sfp_vendor}</td>
+	<td width="20%">型号:</td>   
+	<td width="30%">${part_num}</td>
+</tr><tr>  
+	<td>传输模式:</td>   
+	<td>${trans_mode}</td>
+	<td>传输距离:</td>   
+	<td>${trans_len}</td>
+</tr>
+
+<tr>  
+	<td>传输速率:</td>   
+	<td>${trans_speed}</td>
+	<td>接口类型:</td>   
+	<td>${connect_type}</td>
+</tr>
+<tr> 
+	<td>波长:</td>   
+	<td>${wave_len}</td> 
+	
+	<td><div id="copper" style="visibility:hidden">铜线长:</div></td>   
+	<td><div id="copper_len" style="visibility:hidden">${copper_len}</div></td>
+
+</tr>
+
+<div id="hidden" style="visibility:hidden">
+<tr>  
+	<td>接收功率:</td>   
+	<td>${recv_power}</td>
+	<td>发送功率:</td>   
+	<td>${tran_power}</td>
+</tr>
+<tr>
+	<td>温度:</td>   
+	<td>${temperature}°C</td>  
+	<td></td>   
+	<td></td>
+</tr>
+</div>
+
+</tbody>
+
+</form>
+</body>
+</html>

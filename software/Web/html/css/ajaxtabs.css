@@ -1,0 +1,76 @@
+
+.modernbricksmenu2{
+visibility:visible;
+background:transparent;
+margin-top: 0px;
+}
+
+.modernbricksmenu2 ul{
+padding: 0;
+list-style: none;
+HEIGHT: 26px;
+MARGIN: 0px 0px 0px 10px;
+}
+
+.modernbricksmenu2 li{
+BACKGROUND: url(/images/tabl.gif) no-repeat left bottom;
+FLOAT: left;
+margin: 1px 2px 0 0;
+HEIGHT: 26px;
+padding: 0px 0 0 0px;
+border: 0px solid #ff0000;
+}
+
+.modernbricksmenu2 li a{
+FLOAT: left;
+margin: 0;
+padding: 8px 8px 0px 8px;
+LINE-HEIGHT: 18px;
+HEIGHT: 18px;
+font: bold 14px Arial;
+color: #808080;
+text-decoration: none;
+border: 0px solid #00ff00;
+BACKGROUND: url(/images/tabr.gif) no-repeat right bottom;
+}
+
+.modernbricksmenu2 li a:hover{
+color: #a0a0a0;
+}
+
+.modernbricksmenu2 li.selected{
+BACKGROUND: url(/images/tabl_s.gif) no-repeat left top;
+margin:0 2px -2px 0;
+POSITION: relative;
+HEIGHT: 28px;
+}
+
+.modernbricksmenu2 li.selected a{ 
+FLOAT: left;
+margin:0px;
+padding: 0px 8px 0px 8px;
+LINE-HEIGHT: 28px;
+HEIGHT: 28px;
+BACKGROUND: url(/images/tabr_s.gif) no-repeat right top;
+color: #000000;
+}
+
+.contentstyle{
+background-color: #b9b9b9;
+BACKGROUND: url(/images/tab_bg.gif) repeat-x top;
+border: 1px solid #92a8bd;
+margin: 0 0 30px 0;
+padding: 10px 6px;
+visibility:visible;
+DISPLAY: block
+}
+
+.basecontent{
+background-color: #b9b9b9;
+border: 1px solid #92a8bd;
+margin: 0 0 30px 0;
+}
+
+#con {
+	MARGIN: 0px auto; WIDTH: 680px;
+}

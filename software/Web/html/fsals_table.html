@@ -1,0 +1,74 @@
+<table width="100%%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+
+<tr>  
+	<td class="bar" colspan=4>RS232/485串行数据配置</td>
+</tr	
+
+<tr>  
+	<td width="25%">TCP连接侦听起始端口:</td>   
+	<td width="25%"><input type="text" name="tcp_port" id="tcp_port" size="16" value="${tcp_port}" ></td>
+	<td width="25%">第二通道端口号偏移:</td>   
+	<td width="25%"><input type="text" name="tcp_port_step" id="tcp_port_step" size="16" value="${tcp_port_step}" ></td>
+</tr>
+
+<tr>  
+	<td class="bar" colspan=4>I/O开关量配置</td>
+</tr	
+
+<tr>  
+	<td>告警服务器IP地址:</td>   
+	<td><input type="text" name="as_ip" id="as_ip" size="16" value="${as_ip}" ></td>
+	<td>告警服务器TCP端口号:</td>   
+	<td><input type="text" name="as_port" id="as_port" size="16" value="${as_port}" ></td>
+</tr>
+
+<tr>
+	<td>告警设备号:</td>
+	<td><input type="text" name="dev_id" id="dev_id" size="16" value="${dev_id}" ></td>
+	<td>每组告警设备号偏移:</td>
+	<td><input type="text" name="dev_id_step" id="dev_id_step" size="16" value="${dev_id_step}" ></td>
+</tr>
+
+<tr>
+	<td>告警模式:</td>
+	<td>${alarm_mode}</td>
+	<td>告警消息格式:</td>
+	<td>${alarm_format}</td>
+</tr>
+
+<tr>
+	<td>告警屏蔽:</td>
+	<td colspan=3>
+		<input type='checkbox' name='amask1' id='amask1' ${amask1} >&nbsp;第1组&nbsp;&nbsp; 
+		<input type='checkbox' name='amask2' id='amask2' ${amask2} >&nbsp;第2组&nbsp;&nbsp; 
+		<input type='checkbox' name='amask3' id='amask3' ${amask3} >&nbsp;第3组&nbsp;&nbsp; 
+		<input type='checkbox' name='amask4' id='amask4' ${amask4} >&nbsp;第4组&nbsp;&nbsp; 
+		<input type='checkbox' name='amask5' id='amask5' ${amask5} >&nbsp;第5组&nbsp;&nbsp; 
+		<input type='checkbox' name='amask6' id='amask6' ${amask6} >&nbsp;第6组&nbsp;&nbsp; 
+		</td>
+</tr>
+
+<tr>  
+	<td class="bar" colspan=4>第二告警服务器配置</td>
+</tr	
+
+<tr>  
+	<td>告警服务器IP地址:</td>   
+	<td><input type="text" name="as_ip2" id="as_ip2" size="16" value="${as_ip2}" ></td>
+	<td>告警服务器TCP端口号:</td>   
+	<td><input type="text" name="as_port2" id="as_port2" size="16" value="${as_port2}" ></td>
+</tr>
+<tr>
+	<td>告警消息格式:</td>
+	<td>${alarm_format2}</td>
+	<td colspan=2></td>
+</tr>
+
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="FsaSubmit('setls');"></td>
+</tr>
+
+ 
+
+</tbody></table>

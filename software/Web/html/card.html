@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7" /> 
+<title>Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link href="/css/ajaxtabs.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript">
+
+var xmlHttp = createXMLOBJ();
+function paramSubmit(submit_action) 
+{	
+	var query_time;
+	var timeout;
+	
+	if(document.getElementById("igmp_qrytime_cbox").checked == true)
+	{
+		if(isNumber(document.getElementById("igmp_qrytime"), "IGMP查询时间")==false)   
+		{	
+				return;
+		}
+			
+		if(isInRange(document.getElementById("igmp_qrytime"),10,600,"IGMP查询时间")==false)
+		{
+			return;
+		}
+		query_time = getObjectvalue("igmp_qrytime");
+	}
+	else
+	{
+		query_time = 0;
+	}
+		
+	if(document.getElementById("igmp_timeout_cbox").checked == true)
+	{
+		if(isNumber(document.getElementById("igmp_timeout"), "组播超时时间")==false)   
+		{	
+				return;
+		}
+			
+		if(isInRange(document.getElementById("igmp_timeout"),60,1800,"组播超时时间")==false)
+		{
+			return;
+		}
+		timeout = getObjectvalue("igmp_timeout");
+	}
+	else
+	{
+		timeout = 0;
+	}
+
+ if(getConfirm())
+ {
+			if ( xmlHttp )
+			{
+					var act =	 submit_action;
+					var cardno = getObjectvalue("cardno");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno + "&action=" + act;
+					sendData = sendData + "&igmp_qrytime=" + query_time + "&igmp_timeout=" + timeout;
+					if(document.getElementById("igmp_query_p1").checked == true)
+					{
+						sendData = sendData + "&qp1=1";
+					}
+					if(document.getElementById("igmp_query_p2").checked == true)
+					{
+						sendData = sendData + "&qp2=1";
+					}
+					if(document.getElementById("igmp_router_p1").checked == true)
+					{
+						sendData = sendData + "&rp1=1";
+					}
+					if(document.getElementById("igmp_router_p2").checked == true)
+					{
+						sendData = sendData + "&rp2=1";
+					}
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+
+function multicast_page(page_no) 
+{	
+
+			if ( xmlHttp )
+			{
+					var cardno = getObjectvalue("cardno");
+					var sendData = "sessionID=${sessionID}&cardno=" +cardno;
+					sendData = sendData + "&flag=getamc&page=" + page_no;
+					xmlHttp.open("POST","/cgi-bin/multicast.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+}
+
+function showcontents ()
+{
+		if (xmlHttp.readyState == 4)
+		{
+				if (xmlHttp.status == 200)
+				{
+						
+								getObject("swcontents").innerHTML =  xmlHttp.responseText;
+						
+						
+				}
+			
+			}
+			else
+			 {
+						
+								getObject("swcontents").innerHTML =  "数据正在提交中......";
+						
+				}
+	
+	
+}
+
+function vlanSubmit() 
+{	
+
+	CardForm.action = "/cgi-bin/vlan.cgi?flag=add";
+	document.CardForm.submit();
+
+}	
+
+
+function mcSubmit()
+{
+		CardForm.action = "/cgi-bin/multicast.cgi?flag=add";
+		document.CardForm.submit();	
+}
+
+
+function CheckSubmit() 
+{
+    if(isEnAndNum(document.getElementById("card_name"), "板卡名称")==false)   
+		{	
+			return;
+		}
+    
+    if(getConfirm()){
+			if(checkLength(document.CardForm.card_name, 16)){
+				document.CardForm.submit();
+			}
+    }
+}
+                                                                  
+</script>
+
+ <STYLE type="text/css">
+   table.mc_nav td {background-color:transparent;}
+ </STYLE>
+
+
+<body>	
+<h1>板卡信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID" id="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<div id="baseinfo" class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td colspan=4>
+		<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center">
+		<td align="left" > <a class="pagelink" href="/cgi-bin/countview.cgi?sessionID=${sessionID}&cardno=${card_no}&action=swget">SW&CTRL卡统计数据</a></td>
+</table>	
+</tr>	
+
+<tr>
+	<td class="bar" colspan=4>基本信息</td>
+</tr>
+
+<tr>  
+	<td width="20%">板卡类型:</td>   
+	<td width="30%">${card_type}</td>
+	<td width="20%">板卡号:</td>   
+	<td width="30%">${card_no}</td>
+</tr>
+
+<tr>  
+	<td>硬件版本:</td>   
+	<td>${version_hw}</td>
+	<td>固件版本:</td>   
+	<td>${version_fw}</td>
+</tr>
+
+<tr>  
+	<td>软件版本:</td>   
+	<td>${version_sw}</td>
+	<td>操作系统版本:</td>   
+	<td>${version_os}</td>
+</tr>
+
+<tr>  
+	<td>板卡名称:</td>   
+	<td><input type="text" name="card_name" id="card_name" value="${card_name}" size="16" ></td>
+	<td></td>   
+	<td></td>
+</tr>
+
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit();"></td>
+</tr></tbody></table>
+</div>
+
+
+<div id="swtabs" class="modernbricksmenu2">
+<ul>
+	<li><a href="/cgi-bin/vlan.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=getvlan" rel="swcontents" class="selected">VLAN</a></li>
+	<li><a href="/cgi-bin/multicast.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=getamc" rel="swcontents" >组播</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=getport" rel="swcontents">端口信息</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=getparam" rel="swcontents">配置信息</a></li>
+</ul>
+</div>
+
+<div id="swcontents" class="contentstyle">
+</div>
+
+</form>
+<script defer type="text/javascript">
+var swtab = new ddajaxtabs("swtabs", "swcontents")
+swtab.setpersist(true)
+swtab.setselectedClassTarget("linkparent") //"link" or "linkparent"
+swtab.init() 
+</script>
+</div>
+</body>
+</html>

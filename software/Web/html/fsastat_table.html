@@ -1,0 +1,35 @@
+<table width="100%%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>
+	<td class="bar" width="20%" align="center">远端设备/通道</td>
+	<td class="bar" width="12%" align="center">TCP端口</td>
+	<td class="bar" width="12%" align="center">TCP连接</td>
+	<td class="bar" width="14%" align="center">串口发送</td>
+	<td class="bar" width="14%" align="center">串口接收</td>
+	<td class="bar" width="14%" align="center">告警设备号</td>
+	<td class="bar" width="14%" align="center">告警次数</td>
+</tr>
+<tr> 
+	<td>串口1广播通道</td>
+	<td>${b1_port}</td>
+	<td>${b1_con}</td>
+	<td>${b1_snd}</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+</tr>
+<tr>
+	<td>串口2广播通道</td>
+	<td>${b2_port}</td>
+	<td>${b2_con}</td>
+	<td>${b2_snd}</td>
+	<td>-</td>
+	<td>-</td>
+	<td>-</td>
+</tr>
+${stat_records}
+<tr>  
+ 	<td align=left colspan=7 > <input class="btn" type="button" name="Submit" value="刷新" onclick="FsaSubmit('stat');" >
+ 		<input class="btn" type="button" name="Submit" value="清零" onclick="FsaSubmit('stat_reset');" ></td>
+</tr> 
+</tbody></table>

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>Encode Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript" src="/js/ajaxtabs.js"></script>
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+</head>
+
+<script defer type="text/javascript" >
+
+
+	var xmlHttp = createXMLOBJ();
+	var act;
+function CheckSubmit(submit_action) 
+{	
+		act =	 submit_action;
+		if (act == "setbase")
+		{
+				if(isEnAndNum(document.getElementById("card_name"), "板卡名称")==false)   
+				{	
+					return;
+				}
+				if(checkLength(document.getElementById("card_name"), 16)==false)   
+					return;
+		}
+		else if (act == "net_set")
+		{
+			if(isIpAddress(document.getElementById("encode_ip"),"编码卡IP地址") == false)
+				return;
+			if(isIpAddress(document.getElementById("encode_mask"),"编码卡子网掩码") == false)
+				return;
+			if(isIpAddress(document.getElementById("encode_gateway"),"编码卡网关") == false)
+				return;
+		}
+		//else if (act == "settime")
+		//{}
+		else if (act == "ntp_set")
+		{
+			if(isIpAddress(document.getElementById("ntp_ip"),"时间同步服务器IP") == false)
+				return;
+				
+			if(isNumber(getObject("interval"), "时间间隔")==false)   
+			{	
+				return;
+			}
+			if(isInRange(document.getElementById("interval"),1,9999999,"时间间隔")==false)
+			{
+				return;
+			}
+		}
+
+ if(getConfirm())
+ {
+			if ( xmlHttp )
+			{
+					var sessionID=${sessionID};
+					var cardno = getObjectvalue("cardno");
+					var sendData;
+					if (act == "setbase")
+					{
+							sendData = "sessionID=" + sessionID + "&cardno=" + cardno + "&card_name=" + getObjectvalue("card_name") + "&action=" + act;
+					}
+					else if (act == "restart")
+					{
+							sendData = "sessionID=" + sessionID + "&cardno=" + cardno + "&action=" + act;
+					}
+					else if (act == "net_set")
+					{
+							sendData = "sessionID=" + sessionID + "&cardno=" + cardno + "&ch_no=" + getObjectvalue("ch_no") + "&encode_ip=" + getObjectvalue("encode_ip") + "&encode_mask=" + getObjectvalue("encode_mask") + "&encode_gateway=" + getObjectvalue("encode_gateway") + "&action=" + act;
+					}
+					else if (act == "settime")
+					{
+							sendData = "sessionID=" + sessionID + "&cardno=" + cardno + "&encode_settime=" + getObjectvalue("encode_settime") + "&action=" + act;
+					}
+					else if (act == "gettime")
+					{
+							sendData = "sessionID=" + sessionID + "&cardno=" + cardno + "&action=" + act;
+					}
+					else if (act == "ntp_set")
+					{
+							sendData = "sessionID=" + sessionID + "&cardno=" + cardno + "&ntp_ip=" + getObjectvalue("ntp_ip") + "&interval=" + getObjectvalue("interval") + "&action=" + act;
+					}
+					
+					xmlHttp.open("POST","/cgi-bin/chgcard.cgi");
+					xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded;charset=UTF-8");
+					xmlHttp.setRequestHeader ("Content-length", sendData.length);
+					xmlHttp.setRequestHeader ("Connection", "close");
+					xmlHttp.onreadystatechange=showcontents;
+					xmlHttp.send(sendData);
+		
+			}
+	}
+}
+
+function showcontents ()
+{
+	if (xmlHttp.readyState == 4)
+	{
+		if (xmlHttp.status == 200)
+		{
+			if ( (act == "setbase") || (act == "restart") || (act == "net_set") || (act == "settime") || (act == "gettime") || (act == "ntp_set"))
+			{
+				getObject("basecontents").innerHTML =  xmlHttp.responseText;
+			}
+		}
+	}
+	else
+	{
+		if ( (act == "setbase") || (act == "restart") || (act == "net_set") || (act == "settime") || (act == "gettime") || (act == "ntp_set"))
+		{
+			getObject("basecontents").innerHTML =  "数据正在提交中......";
+		}
+	}
+}
+
+
+</script>
+<body>
+<h1>编码卡配置信息</h1>
+<div id="con">
+<form action="/cgi-bin/chgcard.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<input type="hidden" name="cardno" id="cardno" value=${cardno}>
+
+<div id="basetab" class="modernbricksmenu2" >
+<ul>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=base" rel="basecontents" class="selected">基本信息</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=network&ch_no=0" rel="basecontents" class="selected">主CPU网络配置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=network&ch_no=2" rel="basecontents" class="selected">从CPU网络配置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=systime" rel="basecontents" class="selected">时间设置</a></li>
+	<li><a href="/cgi-bin/show_card.cgi?sessionID=${sessionID}&cardno=${cardno}&flag=ntp" rel="basecontents" class="selected">时间同步</a></li>
+</ul>
+</div>
+
+<div id="basecontents" class="contentstyle">
+</div>
+
+</form>
+
+<script defer type="text/javascript">
+var basetab = new ddajaxtabs("basetab", "basecontents")	
+basetab.setpersist(true)
+basetab.setselectedClassTarget("linkparent")
+basetab.init()
+
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<HTML>
+<HEAD>
+<TITLE> Frame View</TITLE>                                          
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="/css/normal.css" type=text/css rel=StyleSheet>          
+<script type="text/javascript" src="/js/ajaxsendform.js"></script>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+<script type="text/javascript">   
+
+function isHigher(object1,object2) {
+	var extstart = object1.value;
+	var extend   = object2.value;
+	
+	if (extend-extstart < 1) 
+	{
+		alert("\n 错误:开启温度必须大于关闭温度。");
+ 		object1.select();
+		object1.focus();
+  	return false; 
+ 	}
+ 	return true;
+}
+
+	   
+function BacksetSubmit()
+{                                     
+	var state=0;
+
+	if(document.getElementById("fanauto").checked==true)
+	{
+ 		if(isNumber(document.getElementById("fan1_t_high"), "风扇1开启温度")==false)   
+		{	
+			return;
+		}
+		if(isInRange(document.getElementById("fan1_t_high"),1,100,"风扇1开启温度")==false)
+		{
+			return;
+		}
+		if(isNumber(document.getElementById("fan1_t_low"), "风扇1关闭温度")==false)   
+		{	
+			return;
+		}
+		if(isInRange(document.getElementById("fan1_t_low"),1,100,"风扇1关闭温度")==false)
+		{
+			return;
+		}
+		if(isHigher(document.getElementById("fan1_t_low"), document.getElementById("fan1_t_high"))==false)
+		{
+			return;
+		}
+					
+		if(isNumber(document.getElementById("fan2_t_high"), "风扇2开启温度")==false)   
+		{	
+			return;
+		}
+		if(isInRange(document.getElementById("fan2_t_high"),1,100,"风扇2开启温度")==false)
+		{
+			return;
+		}
+		if(isNumber(document.getElementById("fan2_t_low"), "风扇2关闭温度")==false)   
+		{	
+			return;
+		}
+		if(isInRange(document.getElementById("fan2_t_low"),1,100,"风扇2关闭温度")==false)
+		{
+			return;
+		}
+		if(isHigher(document.getElementById("fan2_t_low"), document.getElementById("fan2_t_high"))==false)
+		{
+			return;
+		}
+					
+		if(isNumber(document.getElementById("fan3_t_high"), "风扇3开启温度")==false)   
+		{	
+			return;
+		}
+		if(isInRange(document.getElementById("fan3_t_high"),1,100,"风扇3开启温度")==false)
+		{
+			return;
+		}
+		if(isNumber(document.getElementById("fan3_t_low"), "风扇3关闭温度")==false)   
+		{	
+			return;
+		}
+		if(isInRange(document.getElementById("fan3_t_low"),1,100,"风扇3关闭温度")==false)
+		{
+			return;
+		}
+		if(isHigher(document.getElementById("fan3_t_low"), document.getElementById("fan3_t_high"))==false)
+		{
+			return;
+		}
+	}		
+ 	 
+	if(document.getElementById("fanctl1").checked == true)    
+		state=1+state;                  
+	if(document.getElementById("fanctl2").checked == true)    
+		state=2+state;                  
+	if(document.getElementById("fanctl3").checked == true)    
+		state=4+state;     
+	if(document.getElementById("fanauto").checked==true)
+		state=8;
+	document.getElementById("fanstate").value=state;
+	document.backForm.submit();
+}
+
+function onloadauto()
+{
+		if(document.getElementById("fanauto").checked==true)
+ 		{
+			document.getElementById("fanctl1").disabled = "disabled";
+			document.getElementById("fanctl2").disabled = "disabled";
+			document.getElementById("fanctl3").disabled = "disabled";
+		}
+		else
+		{
+			document.getElementById("fanctl1").disabled = "";
+			document.getElementById("fanctl2").disabled = "";
+			document.getElementById("fanctl3").disabled = "";
+		}
+}
+
+</script>
+</HEAD>
+<BODY onload="onloadauto();">   
+<h1>风扇控制</h1>                                                             
+<form action="/cgi-bin/frameview.cgi" method="Post" name="backForm">
+ 
+  <input type="hidden" name="sessionID" value=${sessionID}>
+  <input type="hidden" name="fanstate" id="fanstate">
+  <input type="hidden" name="act" id="act" value="set">
+  <table width="60%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+	<tr>
+		<td class="bar" colspan=2> </td>
+	</tr><tr>                                                      
+		<td width="30%">手动控制(选中为打开)</td>                         
+		<td width="70%">                                             
+			<input type="CHECKBOX" name="fanctl1" id="fanctl1" ${fan1_checked}>风扇1</input>
+			<input type="CHECKBOX" name="fanctl2" id="fanctl2" ${fan2_checked}>风扇2</input>		
+			<input type="CHECKBOX" name="fanctl3" id="fanctl3" ${fan3_checked}>风扇3</input>
+		</td>
+	</tr><tr>
+		<td>自动控制</td>                         
+		<td>                                             
+			<input type="CHECKBOX" name="fanauto" id="fanauto" onclick="onloadauto();" ${fanauto_checked}>自动</input> <br>
+			风扇1&nbsp开启温度:<input type="text" name="fan1_t_high" id="fan1_t_high" size="4" value="${fan1_t_high}">℃ &nbsp&nbsp&nbsp&nbsp&nbsp
+			关闭温度:<input type="text" name="fan1_t_low" name="fan1_t_low" size="4" value="${fan1_t_low}">℃  <br>
+			风扇2&nbsp开启温度:<input type="text" name="fan2_t_high" id="fan2_t_high" size="4" value="${fan2_t_high}">℃ &nbsp&nbsp&nbsp&nbsp&nbsp
+			关闭温度:<input type="text" name="fan2_t_low" name="fan2_t_low" size="4" value="${fan2_t_low}">℃  <br>
+			风扇3&nbsp开启温度:<input type="text" name="fan3_t_high" id="fan3_t_high" size="4" value="${fan3_t_high}">℃ &nbsp&nbsp&nbsp&nbsp&nbsp
+			关闭温度:<input type="text" name="fan3_t_low" name="fan3_t_low" size="4" value="${fan3_t_low}">℃  <br>
+		</td>
+	</tr><tr>
+
+      <td colspan=2><input class="btn" type="button" name="Submit" value="确定" onClick="BacksetSubmit()"></td>
+	</tr>
+	</table>
+</from>
+</BODY>
+</HTML>

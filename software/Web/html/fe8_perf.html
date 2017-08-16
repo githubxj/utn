@@ -1,0 +1,46 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FSA Card Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function CheckSubmit() 
+{
+    if(getConfirm()){
+			if(checkLength(document.CardForm.card_name, 16)){
+				document.CardForm.submit();
+			}
+    }
+}
+                                                                  
+</script>
+<body>
+<h1>网口流量统计信息</h1>
+<form action="/cgi-bin/resetperf.cgi" method="Post" name="CardForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" value=${cardno}>
+<input type="hidden" name="onuno" value=${onuno}>
+<input type="hidden" name="portno" value=${portno}>
+<table class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan=4>  </td>
+</tr><tr>  
+	<td width="25%">接收字节数:</td>   
+	<td width="25%">${port_recv}</td>
+	<td width="25%">发送字节数:</td>   
+	<td width="25%">${port_send}</td>
+</tr>
+
+<tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="submit" name="Submit" value="重置"  ></td>
+</tr>
+</tbody></table>
+
+</form>
+</body>
+</html>
+

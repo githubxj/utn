@@ -1,0 +1,63 @@
+
+CREATE TABLE Card (
+CardNo smallint NOT NULL ,
+CardType smallint NOT NULL,
+adminState smallint , 
+CardStatus smallint , 
+CardName varchar (20),
+PRIMARY KEY(CardNo)
+);
+ 
+CREATE TABLE Alarm (
+ID INTEGER PRIMARY KEY,
+AlarmTime DATE, 
+AlarmType smallint NOT NULL , 
+Severity  smallint DEFAULT 0, 
+Reason    smallint DEFAULT 0, 
+ShelfNo   smallint DEFAULT 1,
+NodeId    smallint DEFAULT 0, 
+CardNo    smallint DEFAULT 0,
+Port      smallint DEFAULT 0,
+TrapSent  smallint DEFAULT 0,
+Description varchar (20)
+);
+
+CREATE TRIGGER Alarm_timeEnter AFTER  INSERT ON Alarm
+BEGIN
+      UPDATE Alarm SET AlarmTime = DATETIME('NOW', 'LOCALTIME')  WHERE rowid = new.rowid;
+      DELETE FROM Alarm WHERE rowid < new.rowid-4999;
+END;
+
+CREATE TABLE ONUList (
+CardNo smallint NOT NULL ,
+NodeId smallint NOT NULL , 
+NodeSN smallint NOT NULL , 
+NodeState smallint NOT NULL , 
+NetworkState smallint NOT NULL , 
+ONUName varchar (20) ,
+PRIMARY KEY(CardNo, NodeId)
+);
+
+CREATE TABLE NTUList (
+CardNo  smallint  NOT NULL ,
+NtuId  smallint  DEFAULT 0,
+PRIMARY KEY(CardNo, NtuId)
+);
+
+CREATE TABLE MTUList (
+CardNo  smallint  NOT NULL ,
+MtuId  smallint  DEFAULT 0,
+PRIMARY KEY(CardNo, MtuId)
+);
+
+CREATE TABLE EPONUList (
+CardNo smallint NOT NULL ,
+Pon smallint NOT NULL , 
+NodeId smallint NOT NULL , 
+Distance smallint NOT NULL , 
+NodeState smallint NOT NULL , 
+MAC varchar(20) NOT NULL , 
+ONUName varchar (32) ,
+DelFlag smallint DEFAULT 0, 
+PRIMARY KEY(CardNo, Pon, NodeId)
+);

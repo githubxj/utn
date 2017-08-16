@@ -1,0 +1,38 @@
+<table width="100%%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan="4"></td>
+</tr><tr>  
+	<td width="25%">节点号:</td>   
+	<td width="25%">${node_id}</td>
+	<td width="25%">位置序列号:</td>   
+	<td width="25%">${node_sn}</td>
+</tr><tr>  
+	<td>SFP光口状态-N:</td>   
+	<td>${sfp_n_state}</td>
+	<td>SFP光口状态-F:</td> 
+	<td>${sfp_f_state}</td>
+</tr><tr>  
+	<td>节点名称:</td>   
+	<td><input type="text" name="onuname" id="onuname" size="16" value="${onuname}" ></td>
+	<td>管理状态:</td>   
+	<td>${admin_state}</td>
+</tr>
+
+<tr>
+	<td>广播风暴控制:</td>
+	<td>${storm_ctrl}</td>
+	<td><div id="storm_div" style="visibility:hidden;">广播风暴阈值(0~2047):</div></td>
+	<td><div id="stormvalue_div" style="visibility:hidden;"><input type="text" name="storm_threshold" id="storm_threshold" size="16" value="${storm_threshold}" >个</div></td>
+</tr>
+
+<tr> 
+	<td colspan=4>
+	<table width="100%" class="submit_bar" border="0" cellspacing="0" cellpadding="0" align="center"><tr> 
+ 	<td><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmit('setbase');"></td>  
+ 	<td><input class="btn" type="button" name="Submit" value="重启"  onclick="CheckSubmit('reset');"></td>
+ 	</table>
+</tr> 
+ 
+
+</tbody></table>

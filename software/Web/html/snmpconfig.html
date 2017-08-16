@@ -1,0 +1,130 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>snmpconfig</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function ensureconfirm()
+{
+		return (confirm ('确定要修改SNMP的配置信息吗？一旦确认修改系统将会重启，请耐心等待！'));	
+}	
+
+function CheckSubmitAction(submit_action) 
+{
+    
+    document.getElementById("action").value = submit_action;
+    
+    if(isEnAndNum(document.getElementById("sys_contact"), "系统联系人")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("sys_contact"), 16)==false)   
+			return;
+			
+		if(isEnAndNum(document.getElementById("sys_name"), "系统名字")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("sys_name"), 16)==false)   
+			return;
+			
+		if(isEnAndNum(document.getElementById("sys_location"), "系统位置")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("sys_location"), 16)==false)   
+			return;
+			
+		if(isEnAndNum(document.getElementById("ro_community"), "读公共体")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("ro_community"), 16)==false)   
+			return;
+			
+		if(isEnAndNum(document.getElementById("rw_community"), "写公共体")==false)   
+		{	
+			return;
+		}
+		if(checkLength(document.getElementById("rw_community"), 16)==false)   
+			return;
+			
+    if(isIpAddress(document.getElementById("trap_host1")) == false){
+    		
+				return;
+			}
+			
+		if (isIpAddress(document.getElementById("trap_host2")) == false )
+		{
+			return;	
+		}
+		
+		if (isIpAddress(document.getElementById("trap_host3")) == false )
+		{
+			return;	
+		}
+		
+		if (isIpAddress(document.getElementById("trap_host4")) == false )
+		{
+			return;	
+		}
+    if(ensureconfirm()){
+			
+				document.CardForm.submit();
+			
+    }
+}
+
+
+
+
+
+                                                                  
+</script>
+<body>
+<h1>SNMP 配置信息</h1>
+<form action="/cgi-bin/snmpconfig.cgi" method="Post" name="CardForm"  >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="action" id="action">
+<table width="60%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+	<td class="bar" colspan=4>配置信息  </td>
+</tr><tr>  
+	<td width="25%">系统联系人:</td>   
+	<td width="25%"><input type="text" name="sys_contact" id="sys_contact" size="16" value="${sys_contact}"></td>
+	<td width="25%">系统名字:</td>   
+	<td width="25%"><input type="text" name="sys_name" id="sys_name" size="16" value="${sys_name}"></td>
+</tr><tr>  
+	<td>系统位置:</td>   
+	<td><input type="text" name="sys_location" id="sys_location" size="16" value="${sys_location}"></td>
+	<td>读公共体:</td>   
+	<td><input type="text" name="ro_community" id="ro_community" size="16" value="${ro_community}"></td>
+</tr><tr>  
+	<td>写公共体:</td>   
+	<td><input type="text" name="rw_community" id="rw_community" size="16" value="${rw_community}"></td>
+	<td></td>
+	<td></td>
+</tr><tr>  
+	<td>traphost-1:</td>   
+	<td><input type="text" name="trap_host1" id="trap_host1"  size="16" value="${trap_host1}" ></td>
+	<td>traphost-2:</td>   
+	<td><input type="text" name="trap_host2" id="trap_host2" size="16" value="${trap_host2}" ></td>
+</tr><tr>  
+	<td>traphost-3:</td>   
+	<td><input type="text" name="trap_host3" id="trap_host3" size="16" value="${trap_host3}" ></td>
+	<td>traphost-4:</td>   
+	<td><input type="text" name="trap_host4" id="trap_host4" size="16" value="${trap_host4}" ></td>
+</tr><tr>  
+ 	<td  colspan=4 align=left><input class="btn" type="button" name="Submit" value="修改"  onclick="CheckSubmitAction('set');"></td>
+</tr>
+
+
+</tbody>
+
+</form>
+</body>
+</html>

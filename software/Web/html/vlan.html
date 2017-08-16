@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=7">
+<title>Vlan Information</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<link rel="stylesheet" type="text/css" href="/css/ajaxtabs.css" >
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<script type="text/javascript">
+function CheckSubmit(submitaction) 
+{
+    if(isNumber(document.getElementById("vlan_id"), "VLAN ID")==false)   
+		{	
+			return;
+		}
+    
+    if(getConfirm()){
+
+	   		VlanForm.action = "/cgi-bin/vlan.cgi?flag=save";
+				document.VlanForm.submit();
+			
+    }
+}
+
+                                                               
+</script>
+<body>
+<h1>VLAN信息</h1>
+<div id="con">
+<form action="/cgi-bin/vlan.cgi" method="Post" name="VlanForm" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="cardno" id="cardno" value=${card_no}>
+<div class="basecontent">
+<table width="100%" class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+	
+<tr>
+	<td class="bar" colspan=2></td>
+</tr>
+
+<tr>  
+	<td width="20%">VLAN ID:</td>   
+	<td width="80%"><input type='text' name='vlan_id' id='vlan_id' value='${vlan_id}' size='16'></td>
+</tr>
+
+<tr>  
+	<td>成员:</td>   
+	<td>
+		<table width='100%' border='0' cellspacing="1" align='left'>
+			<tr>
+			<td width="10%">&nbsp;1号槽：</td>
+			<td width="14%"><input type='checkbox' name='port3' id='port3' ${port3} >&nbsp;port3</td>
+			<td width="34%"><input type='checkbox' name='port4' id='port4' ${port4} >&nbsp;port4</td>
+			<td width="14%">&nbsp;8号槽：</td>
+			<td width="14%"><input type='checkbox' name='port21' id='port21' ${port21} >&nbsp;port21</td>
+			<td width="14%"><input type='checkbox' name='port22' id='port22' ${port22} >&nbsp;port22</td>
+			</tr>
+			<tr>
+			<td>&nbsp;2号槽：</td>
+			<td><input type='checkbox' name='port7' id='port7' ${port7} >&nbsp;port7</td>
+			<td><input type='checkbox' name='port8' id='port8' ${port8} >&nbsp;port8</td>
+			<td>&nbsp;9号槽：</td>
+			<td><input type='checkbox' name='port17' id='port17' ${port17} >&nbsp;port17</td>
+			<td><input type='checkbox' name='port18' id='port18' ${port18} >&nbsp;port18</td>
+			</tr>
+			<tr>
+			<td>&nbsp;3号槽：</td>
+			<td><input type='checkbox' name='port11' id='port11' ${port11} >&nbsp;port11</td>
+			<td><input type='checkbox' name='port12' id='port12' ${port12} >&nbsp;port12</td>
+			<td>&nbsp;10号槽：</td>
+			<td><input type='checkbox' name='port13' id='port13' ${port13} >&nbsp;port13</td>
+			<td><input type='checkbox' name='port14' id='port14' ${port14} >&nbsp;port14</td>
+			</tr>
+			<tr>
+			<td>&nbsp;4号槽：</td>
+			<td><input type='checkbox' name='port15' id='port15' ${port15} >&nbsp;port15</td>
+			<td><input type='checkbox' name='port16' id='port16' ${port16} >&nbsp;port16</td>
+			<td>&nbsp;11号槽：</td>
+			<td><input type='checkbox' name='port9' id='port9' ${port9} >&nbsp;port9</td>
+			<td><input type='checkbox' name='port10' id='port10' ${port10} >&nbsp;port10</td>
+			</tr>
+			<tr>
+			<td>&nbsp;5号槽：</td>
+			<td><input type='checkbox' name='port19' id='port19' ${port19} >&nbsp;port19</td>
+			<td><input type='checkbox' name='port20' id='port20' ${port20} >&nbsp;port20</td>
+			<td>&nbsp;12号槽：</td>
+			<td><input type='checkbox' name='port5' id='port5' ${port5} >&nbsp;port5</td>
+			<td><input type='checkbox' name='port6' id='port6' ${port6} >&nbsp;port6</td>
+			</tr>
+			<tr>
+			<td>&nbsp;6号槽：</td>
+			<td><input type='checkbox' name='port23' id='port23' ${port23} >&nbsp;port23</td>
+			<td><input type='checkbox' name='port24' id='port24' ${port24} >&nbsp;port24</td>
+			<td>&nbsp;13号槽：</td>
+			<td><input type='checkbox' name='port1' id='port1' ${port1} >&nbsp;port1</td>
+			<td><input type='checkbox' name='port2' id='port2' ${port2} >&nbsp;port2</td>
+			</tr>
+			<tr>
+			<td>&nbsp;7号槽：</td>
+			<td><input type='checkbox' name='ge1' id='ge1' ${ge1} >&nbsp;GE1</td>
+			<td><input type='checkbox' name='ge2' id='ge2' ${ge2} >&nbsp;GE2</td>
+			<td colspan=3> </td>
+			</tr>
+		</td>
+	</table>
+</tr>
+<tr>  
+ 	<td  colspan=2 align=left><input class="btn" type="button" name="Submit" value="保存"  onclick="CheckSubmit('save');"></td>
+</tr> </tbody>
+</div>
+</form>
+</div>
+</body>
+</html>

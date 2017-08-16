@@ -1,0 +1,27 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>reboot system</title>
+<link href="/css/normal.css" type=text/css rel=StyleSheet>
+<script type="text/javascript" src="/js/checksubmit_cn.js"></script>
+</head>
+
+<body>
+<h1>告警清除</h1>
+<form action="/cgi-bin/clearalarm.cgi" method="get" name="Form" >
+<input type="hidden" name="sessionID" value=${sessionID}>
+<input type="hidden" name="act" value="clear">
+
+
+<table class="field" border="0" cellspacing="1" cellpadding="4" align="center">
+<tbody>
+<tr>  
+   	<td  colspan=2 align=center>按下告警清除后，将清除系统中存在的所有告警记录！</td>
+</tr> <tr>  
+   	<td  colspan=2 align=center><input class="btn" type="submit" name="Submit" value="告警清除"></td>
+</tr> 
+</tbody>
+</table>
+</form>
+</body>
+</html>
