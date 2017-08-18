@@ -33,7 +33,6 @@
 #define  ATYPE_ONUSFPREMOVED	53
 #define  ATYPE_ONUPORTUP		54
 #define  ATYPE_ONUPORTDOWN		55
-#define  ATYPE_RMTPOWERDOWN	    56
 
 #define  ATYPE_ONUNAMECHG		58 /*only used for onu list sychronization between FSA12500 and CTRL card */
 #define  ATYPE_ONUSNCHG		    59 /*only used for onu list sychronization between FSA12500 and CTRL card */
@@ -50,6 +49,15 @@
 #define  ATYPE_ONUSFPRESTORE		68
 
 
-#define ATYPE_MTU_FIBER_ONLINE
-#define ATYPE_MTU_FIBER_OFFLINE
+#define  ATYPE_RMTPOWERON	        69   
+#define  ATYPE_RMTPOWERDOWN	        70      
+
+#define  ATYPE_MTU_FIBER_ONLINE                     71
+#define  ATYPE_MTU_FIBER_OFFLINE                    72
+#define  ATYPE_MTU_FRONT_SHARE_ETH_ON           73
+#define  ATYPE_MTU_FRONT_SHARE_ETH_DOWN         74
+#define  ATYPE_MTU_BACK_STANDALONE_ETH_ON       75
+#define  ATYPE_MTU_BACK_STANDALONE_ETH_DOWN     76
+#define  ATYPE_MTU_FRONT_STANDALONE_ETH_ON      77
+#define  ATYPE_MTU_FRONT_STANDALONE_ETH_DOWN    78
 

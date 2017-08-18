@@ -360,8 +360,13 @@ void genAlarm(sqlite3 *db, unsigned char alarmType, unsigned char serverity,unsi
 	char *zErrMsg = 0;
 	int rc;
 
-	sprintf(sql_str, "insert into Alarm(AlarmType, Severity, CardNo, Port, NodeId, Reason) values(%u, %d, %d, %d, %d, %d);", alarmType, serverity, card_no, port_no, node_id, reason);
+	sprintf(sql_str,
+	    "insert into Alarm(AlarmType, Severity, CardNo, Port, NodeId, Reason) "
+	    "values(%u, %d, %d, %d, %d, %d);",
+	    alarmType, serverity, card_no, port_no, node_id, reason);
+	    
 	rc = sqlite3_exec(db, sql_str, 0, 0, &zErrMsg);
+	
 	if(rc != SQLITE_OK) {
 		logger (LOG_ERR , "DB insert alarm error: %s\nsql:%s\n", sqlite3_errmsg(db),sql_str);
 	}
@@ -373,25 +378,131 @@ void genCardAlarm(sqlite3 *db, unsigned char alarmType, unsigned char serverity,
 }
 
 #if 1 // 201708
-void check_alarm_mtt441(sqlite3* db, MTT441_ALARM_INFO* alm)
+/*
+    status:
+            00   offline always             不告警  
+            01:  offline -->  online        上线告警
+            10:  online  -->  offline       下线告警
+            11:  online always              不告警
+*/            
+void check_alarm_mtt441_onoff(sqlite3* db, unsigned char card, unsigned char node,
+    unsigned port, unsigned char status,  unsigned char online,  unsigned char offline )
 {
-    if (alm->mtu1_front_power == 2) // 掉电
-    {
-        genAlarm(db, ATYPE_RMTPOWERDOWN, getServerity(ATYPE_RMTPOWERDOWN), cardData[i].card_no,  0,  0, 0);
-    }
-    
-    if (alm->mtu1_front_fiber == 2) // 光口下线
-    {
-        genAlarm(db, ATYPE_MTU_FIBER_OFFLINE, getServerity(ATYPE_MTU_FIBER_OFFLINE), cardData[i].card_no,  0,  0, 0);
-    }
+    if (status == 1)
+        genAlarm(db, online, getServerity(online), card,  port,  node, 0);
+        
+    else if (status == 2)
+        genAlarm(db, offline, getServerity(offline), card,  port,  node, 0);
 }
 
-void check_alarm_mtt411(sqlite3* db, MTT411_ALARM_INFO* alm)
+
+void check_alarm_mtt441(sqlite3* db, MTT441_ALARM_INFO* alm, unsigned char card)
 {
-    if (alm->mtu1_front_power == 2) // 掉电
-    {
-        genAlarm(db, ATYPE_RMTPOWERDOWN, getServerity(ATYPE_RMTPOWERDOWN), cardData[i].card_no,  0,  0, 0);
-    }
+    unsigned char node = 0;
+    unsigned char port = 0;
+    unsigned char on = ATYPE_RMTPOWERON;
+    unsigned char off = ATYPE_RMTPOWERDOWN;
+
+    
+    node = 1;
+    port = 1;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_power, on, off);
+    node = 2;
+    port = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_power, on, off);
+    
+    
+    on = ATYPE_MTU_FIBER_ONLINE;
+    off = ATYPE_MTU_FIBER_OFFLINE;
+    node = 1;
+    port = 1;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_fiber, on, off);
+    node = 2;
+    port = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_fiber, on, off);
+    
+    
+    on = ATYPE_MTU_FRONT_SHARE_ETH_ON;
+    off = ATYPE_MTU_FRONT_SHARE_ETH_DOWN;
+    node = 1;
+    port = 1;
+    
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net, on, off);
+    node = 2;
+    port = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net, on, off);
+    
+    
+    on = ATYPE_MTU_BACK_STANDALONE_ETH_ON;
+    off = ATYPE_MTU_BACK_STANDALONE_ETH_DOWN;
+    node = 1;
+    port = 1;
+    
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_back_net, on, off);
+    node = 2;
+    port = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_back_net, on, off);
+    
+    on = ATYPE_MTU_FRONT_SHARE_ETH_ON;
+    off = ATYPE_MTU_FRONT_SHARE_ETH_DOWN;
+    node = 1;
+    port = 1;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net1, on, off);
+    port = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net2, on, off);
+    port = 3;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net3, on, off);
+    port = 4;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net4, on, off);
+    port = 5;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net5, on, off);
+    port = 6;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net6, on, off);
+    port = 7;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net7, on, off);
+    port = 8;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu1_front_net8, on, off);
+
+    node = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net1, on, off);
+    port = 2;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net2, on, off);
+    port = 3;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net3, on, off);
+    port = 4;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net4, on, off);
+    port = 5;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net5, on, off);
+    port = 6;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net6, on, off);
+    port = 7;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net7, on, off);
+    port = 8;
+    check_alarm_mtt441_onoff(db, card, node, port, alm->mtu2_front_net8, on, off);
+}
+
+
+void check_alarm_mtt411_onoff(sqlite3* db, unsigned char card, unsigned char node,
+    unsigned port, unsigned char status,  unsigned char online,  unsigned char offline )
+{
+    if (status == 1)
+        genAlarm(db, online, getServerity(online), card,  port,  node, 0);
+        
+    else if (status == 2)
+        genAlarm(db, offline, getServerity(offline), card,  port,  node, 0);
+}
+
+void check_alarm_mtt411(sqlite3* db, MTT411_ALARM_INFO* alm, unsigned char card)
+{
+    unsigned char node = 0;
+    unsigned char port = 0;
+    unsigned char on = ATYPE_RMTPOWERON;
+    unsigned char off = ATYPE_RMTPOWERDOWN;
+    
+    node = 1;
+    port = 1;
+    
+    check_alarm_mtt411_onoff(db, card, node, port, alm->mtu1_front_power, on,  off);
 }
 #endif
 
@@ -970,12 +1081,12 @@ void check_cardAlarms()
                 if (cardData[i].card_type == CARD_TYPE_MTT_411)
                 {
                     MTT411_ALARM_INFO* alm = (MTT411_ALARM_INFO*)&alarm_rsp->data.mtt_alarms;
-                    check_alarm_mtt411(db, alm);                    
+                    check_alarm_mtt411(db, alm, cardData[i].card_no);                    
                 }
                 else if (cardData[i].card_type == CARD_TYPE_MTT_441)
                 {
                     MTT441_ALARM_INFO* alm = (MTT441_ALARM_INFO*)&alarm_rsp->data.mtt_alarms;
-                    check_alarm_mtt441(db, alm);                    
+                    check_alarm_mtt441(db, alm, cardData[i].card_no);                    
                 }
             }
 

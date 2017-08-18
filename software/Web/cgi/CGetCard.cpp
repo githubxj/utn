@@ -2762,7 +2762,7 @@ int CGetCard::getCardData()
 				mtt441state = (MTT_441_STATE *)(recv_buff+sizeof(MSG_HEAD_CMD_RSP));
 				
 				// 解析接收端状态，然后输出
-                int state = mtt441state->FD1State;
+                int state = mtt441state->;
                 char tmp_img[24];
                 if (i == 2) 
                     state = mtt441state->FD2State;

@@ -690,7 +690,7 @@ typedef struct MTT411_ALARM_INFO
 
 
 /*
-前1电源	前1光纤	前1独立网口	后1独立网口
+前1电源	        前1光纤	        前1独立网口	    后1独立网口
 前1共享网口1	前1共享网口2	前1共享网口3	前1共享网口4
 前1共享网口5	前1共享网口6	前1共享网口7	前1共享网口8
 
@@ -702,7 +702,7 @@ typedef struct MTT441_ALARM_INFO
     unsigned char mtu1_front_net:2;          // 前端独立网口
     unsigned char mtu1_back_net:2;           // 后端独立网口
     
-    unsigned char mtu1_front_net1:2;
+    unsigned char mtu1_front_net1:2;         // 前端共享网口
     unsigned char mtu1_front_net2:2;
     unsigned char mtu1_front_net3:2;
     unsigned char mtu1_front_net4:2;
